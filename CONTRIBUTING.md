@@ -6,14 +6,14 @@ Arif
 Gi Yoon
 
 
-#### TEAM NORMS
+#### Team Norms:
 
 All team members will be in EST time zone by the 17th of March.
 Each member commits the following weekly meetings:
 Meetings on weekends will be coordinated based on need basis and availability.
 Meetings will take place on Zoom.
 
-#### TEAM VALUES:
+#### Team Values:
 
 Each team member is required to complete his assigned item by the deadline. In case a team member is having difficulty completing his task, he must notify the group no later than the Thursday daily standup, at which point a discussion will be made regatding reassigning the item.
 Treat each other with dignity and respect.
