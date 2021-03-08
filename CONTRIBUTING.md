@@ -40,10 +40,12 @@ agreement that a member who makes no progress on a task for two standups or more
 
 Creating Commits:
 As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely
-
+ 
 
 Coding standards - To be discussed with the team at Monday 11 AM meeting
-Designate a code editor and code linter all team members will use to standardize code formatting.
+
+Code Linter ES Lint
+Code Editor - VS Code
 Don't over-engineer. Write minimum code to get things working end to end, only then iterate to improve. - Code for each task and spike must be peer-reviewed and pass tests before merging into the main branch of code.
 Always push working code, if you break the pipeline/build then fix it.
 Make granular and small commits, per feature or per bug fix.
