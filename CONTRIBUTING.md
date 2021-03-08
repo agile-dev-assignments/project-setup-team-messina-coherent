@@ -6,13 +6,15 @@ Arif
 Gi Yoon
 
 
-####TEAM NORMS
+#### TEAM NORMS
+
 All team members will be in EST time zone by the 17th of March.
 Each member commits the following weekly meetings:
 Meetings on weekends will be coordinated based on need basis and availability.
 Meetings will take place on Zoom.
 
-####TEAM VALUES:
+#### TEAM VALUES:
+
 Each team member is required to complete his assigned item by the deadline. In case a team member is having difficulty completing his task, he must notify the group no later than the Thursday daily standup, at which point a discussion will be made regatding reassigning the item.
 Treat each other with dignity and respect.
 Be genuine with each other about ideas, challenges, and feelings.
@@ -28,20 +30,22 @@ For meetings longer than 15 minutes, a designated member will take minutes and p
 Meetings will start on time.
 Members are expected to check and answer questions on Slack daily.
 
-####Sprint Cadence:
+#### Sprint Cadence:
+
 Each sprint will be 2 weeks long
 
-####Daily Standup:
+#### Daily Standup:
+
 Monday - 10:30 AM. General daily standup before class to go over the project together.
 Thursday - 11:00 AM. Daily standup going over the items due and delegating assignments to each member.
 agreement that members will not cover for other members who do not participate.
 agreement that a member who makes no progress on a task for two standups or more in a row will be reported to management.
 
-####Creating Commits:
+#### Creating Commits:
 As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely
  
 
-####Coding standards:
+#### Coding standards:
 
 Code Linter ES Lint
 Code Editor - VS Code
@@ -54,7 +58,7 @@ Don't leave dead/commented out code behind. If you see such code, delete it.
 Write automated tests to cover critical integration points and functionality (once you learn how to do that).
 
 
-####TBD:
+#### TBD:
 
 the Git workflow that the team follows
 
