@@ -32,6 +32,7 @@ To be updated when our project reaches that stage.
 
 ### Additional Links
 [UX-Design Repo](https://github.com/agile-dev-assignments/user-experience-design-team-messina-coherent)
+
 [Prototype](https://projects.invisionapp.com/share/AH10C9MTTEJF#/screens)
 
 As of right now there are not any additional links, although there may be some in the future.
