@@ -38,6 +38,7 @@ Each sprint will be 2 weeks long
 
 Monday - 10:30 AM. General daily standup before class to go over the project together.
 Thursday - 11:00 AM. Daily standup going over the items due and delegating assignments to each member.
+Sunday 9:30. Check-in on prorgress of tasks.
 agreement that members will not cover for other members who do not participate.
 agreement that a member who makes no progress on a task for two standups or more in a row will be reported to management.
 
