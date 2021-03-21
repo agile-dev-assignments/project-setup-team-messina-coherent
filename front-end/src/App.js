@@ -1,7 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
+
+import Headers from'./About_Header.js'
+import About from './About.js'
+
 import Privacy from './Privacy.js'
 import Headers from './Privacy_Header.js'
+
 
 import {
   BrowserRouter as Router,
@@ -15,6 +19,8 @@ function App() {
   return (
     <div>
       <Headers />
+      <About />
+
       <Privacy />
     
     </div>

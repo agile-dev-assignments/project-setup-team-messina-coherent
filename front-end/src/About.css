@@ -1,0 +1,46 @@
+
+.About{
+    text-align: center;
+}
+body {
+    background: #20262E;
+    padding: 20px;
+    font-family: Helvetica;
+    margin:auto;
+
+  }
+
+  #about_header{
+    background: #fff;
+    margin: auto,
+    
+
+  }
+  
+  #app {
+    background: #fff;
+    border-radius: 4px;
+    padding: 20px;
+    transition: all 0.2s;
+  }
+  
+
+  p {
+    color: red;
+  }
+
+  .intro { 
+    border: 1px solid white; 
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+}
+.intro-heading {
+    font-weight: normal;
+    font-size: 30px;
+    font-family: georgia;
+}
+.intro-paragraph {
+    color: #faf8f8;
+    font-family: helvetica;
+}
