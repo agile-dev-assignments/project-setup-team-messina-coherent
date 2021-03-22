@@ -1,16 +1,25 @@
 .searchbar h1{
+    margin-bottom: 15px;
+    font-size: 30px;
+    text-align: center;
+}
+.searchbar h3{
     margin: 0 auto;
     margin-bottom: 15px;
-    font-weight: normal;
-    font-size: 30px;
-    font-family: georgia;
+    font-size: 18px;
+}
+.searchbar a{
+    color:white;
+}
+.searchbar a:hover{
+    color:#57eb07;
 }
 .searchbar{
- margin: auto 0;
- padding: 20px;
- font-weight: normal;
- font-size: 30px;
- font-family: georgia;
+ color: white;
+ padding:0 20px;
+}
+.searchbar hr{
+    width: 90%;
 }
 .content{
     border-radius: 15px;
@@ -23,9 +32,20 @@
     margin-top: 15px;
     font-weight: normal;
     font-size: 30px;
-    font-family: georgia;
 }
 .first_row{
     background: darkseagreen;
     border: 2px solid white;
 }
+.contentOR {
+    margin: 10px auto;
+    width: 80%;
+  }
+  .or {
+    text-align: center;
+    font-size: 32px;
+    background-image:linear-gradient(white,white),linear-gradient(white,white);
+    background-size:30% 1px;
+    background-position:left,right;
+    background-repeat:no-repeat;
+  }
