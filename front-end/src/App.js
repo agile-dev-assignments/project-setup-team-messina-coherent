@@ -3,6 +3,9 @@ import NavBar from './navbar.js';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from 'react-router-dom';
 import About from './About.js';
 import Privacy from './Privacy.js';
+import Home from './home.js';
+import Contact from './contact.js';
+import FAQ from './faq.js';
 
 function App() {
   return (
@@ -47,25 +50,25 @@ function App() {
   );
 }
 
-function Home() {
-  return <h2 className='home'>Home</h2>;
-}
+// function Home() {
+//   return <h2 className='home'>Home</h2>;
+// }
 
 // function About() {
 //   return <h2 className='home'>About</h2>;
 // }
 
-function FAQ() {
-  return <h2 className='home'>faq</h2>;
-}
+// function FAQ() {
+//   return <h2 className='home'>faq</h2>;
+// }
 
 // function Privacy() {
 //   return <h2 className='home'>privacy</h2>;
 // }
 
-function Contact() {
-  return <h2 className='home'>contact</h2>;
-}
+// function Contact() {
+//   return <h2 className='home'>contact</h2>;
+// }
 
 function MyTaste() {
   return <h2 className='home'>My Taste</h2>;
