@@ -1,0 +1,17 @@
+#navbar{
+    height:100px;
+    background-color: black;
+    padding-top: 0;
+}
+#nav{
+    margin-top:0;
+    padding-top: 10px;
+    list-style-type: none;
+    text-align: center;
+    padding-left: 0;
+}
+
+.logo img{
+    height: 80px;
+    width: 80px;
+}

@@ -13,17 +13,11 @@
 .intro-paragraph {
     color: #faf8f8;
     font-family: georgia;
+    padding: 20px;
 }
 .About_Header{
     text-align: center;
 }
-body {
-    background: #20262E;
-    padding: 20px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    margin:auto;
-
-  }
 
   #about_header{
     background: #fff;
@@ -38,8 +32,4 @@ body {
     padding: 20px;
     transition: all 0.2s;
   }
-  
 
-  p {
-    color: #faf8f8;
-  }
