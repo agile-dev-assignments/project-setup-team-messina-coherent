@@ -1,0 +1,31 @@
+h1{
+    margin: 0 auto;
+    margin-bottom: 15px;
+    font-weight: normal;
+    font-size: 30px;
+    font-family: georgia;
+}
+.searchbar{
+ margin: auto 0;
+ padding: 20px;
+ font-weight: normal;
+ font-size: 30px;
+ font-family: georgia;
+}
+.content{
+    border-radius: 15px;
+    text-align: center;
+}
+.button{
+    border-radius: 15px;
+}
+.questiontable{
+    margin-top: 15px;
+    font-weight: normal;
+    font-size: 30px;
+    font-family: georgia;
+}
+.first_row{
+    background: darkseagreen;
+    border: 2px solid white;
+}

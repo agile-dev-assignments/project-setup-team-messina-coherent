@@ -1,0 +1,17 @@
+.contact{
+    font-weight: normal;
+    font-size: 30px;
+    font-family: georgia;
+    padding: 20px;
+    margin: 0 auto;
+    margin-left: 50px;
+    text-align: left;
+    border-bottom: 1px solid black;
+}
+.h_cu{
+    font-family: georgia;
+}
+.p1_cu{
+    font-size: 10px;
+    font-family: georgia;
+}
