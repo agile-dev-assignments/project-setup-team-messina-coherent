@@ -1,0 +1,85 @@
+.accordion {
+    margin-bottom: 15px;
+    margin-top:10px;
+  }
+  
+  .accordion.opened .accordion__head span{
+    transform-origin: center center;
+  }
+  
+  .accordion.disable-click .accordion__head::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    content: '';
+  }
+  
+  .accordion__head {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .accordion__head p {
+    color: #808080;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  .accordion__head p:hover{
+    color: #ffffff;
+  }
+
+  .accordion__head span:hover{
+    color: #ffffff;
+  } 
+  
+  /* .accordion__head p:hover {
+    color: #ffffff;
+  } */
+  
+  .accordion__head span {
+    color: #808080;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    margin-top: -12px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transform: rotate(0deg);
+    transition-property: transform;
+    transition-timing-function: ease;
+  }
+  
+  .accordion__head span svg {
+    display: block;
+  }
+  
+  .accordion__body {
+    background-color: #000;
+    display: none;
+    overflow: hidden;
+    transition-property: height;
+    transition-timing-function: ease;
+  }
+  
+  .accordion__body_inner{
+    color: #fff;
+    margin-left: 12px;
+    padding-bottom: 20px;
+  }
+
+  .accordion__body_inner a {
+    color: #808080;
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-bottom: 10px;
+  }
+  .accordion__body_inner a:hover {
+    color: #ffffff;
+    
+  }
