@@ -23,7 +23,7 @@ function Sidebar() {
   const accordionData = [
     {
       question: 'Playlists',
-      answer: <><a className='menu-item' href='/'>By Weather</a><br style={{height:
+      answer: <><a className='menu-item' href='/byWeather'>By Weather</a><br style={{height:
       "10px"}}></br>
       <Accordions data={accordionData2} duration={400} closeOthers opened={1} /></>
     }

@@ -24,6 +24,10 @@
 
 /* Color/shape of close button cross */
 .bm-cross {
+  background: #808080;
+}
+
+.bm-cross-button:hover  .bm-cross {
   background: white;
 }
 
@@ -76,9 +80,4 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 :focus{
   outline: none !important;
-}
-
-#login{
-  position: relative;
-  bottom: 120px;
 }
