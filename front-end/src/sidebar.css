@@ -25,6 +25,7 @@
 /* Color/shape of close button cross */
 .bm-cross {
   background: #808080;
+  transition: color 0.2s;
 }
 
 .bm-cross-button:hover  .bm-cross {

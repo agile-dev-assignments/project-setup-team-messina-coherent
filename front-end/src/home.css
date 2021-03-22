@@ -1,0 +1,39 @@
+#home{
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#home h2{
+    color:white;
+}
+
+#home img{
+    width: 350px;
+    border: 1px solid white;
+}
+
+.homeButton{
+    padding: 5px;
+    background: #57eb07;
+    border: 2px solid #57eb07;;
+    border-radius: 5px;
+    font-size: 16px;
+    color: black;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.homeButton:hover{
+    border: 2px solid #57eb07;
+    background: #404040;
+    color: #57eb07;
+}
+
+.homeLink{
+    color: white;
+}
+
+.homeLink:hover{
+    color: #57eb07;
+}
