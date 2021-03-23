@@ -1,5 +1,6 @@
 import './App.css';
 import NavBar from './navbar.js';
+import Footer from './footer.js';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from 'react-router-dom';
 import About from './About.js';
 import Privacy from './Privacy.js';
@@ -53,7 +54,7 @@ function App() {
         </Switch>
         </div>
 
-        
+        <Footer/>
       </div>
     </Router>
   );
