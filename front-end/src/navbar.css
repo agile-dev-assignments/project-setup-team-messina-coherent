@@ -2,6 +2,10 @@
     height:100px;
     background-color: black;
     padding-top: 0;
+    position: fixed;
+    width:100%;
+    top: 0;
+   
 }
 #nav{
     margin-top:0;

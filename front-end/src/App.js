@@ -6,22 +6,30 @@ import Privacy from './Privacy.js';
 import Home from './home.js';
 import Contact from './contact.js';
 import FAQ from './faq.js';
+import Login from './Login.js';
+import MyTaste from './myTaste.js';
+import ByWeather from './byWeather.js';
+import Playlist from './playlist.js';
 
 function App() {
   return (
     <Router>
       <div className="main">
         <NavBar />
-
+        <div id="marginer">
         <Switch>
-          <Route path='/byWeather/playlist'>
-            <ByWeatherPlay />
+          <Route path='/mood-boosters'>
+            <ByWeather name="Mood Boosters" />
           </Route>
           <Route path='/about'>
             <About />
           </Route>
           <Route path='/faq'>
             <FAQ />
+          </Route>
+
+          <Route path='/login'>
+            <Login />
           </Route>
 
           <Route path='/privacy'>
@@ -36,13 +44,14 @@ function App() {
           </Route>
 
           <Route path='/byWeather'>
-            <ByWeather />
+            <ByWeather name="By Weather" />
           </Route>
 
           <Route path='/'>
             <Home />
           </Route>
         </Switch>
+        </div>
 
         
       </div>
@@ -70,13 +79,13 @@ function App() {
 //   return <h2 className='home'>contact</h2>;
 // }
 
-function MyTaste() {
-  return <h2 className='home'>My Taste</h2>;
-}
+// function MyTaste() {
+//   return <h2 className='home'>My Taste</h2>;
+// }
 
-function ByWeather() {
-  return <h2 className='home'>By Weather</h2>;
-}
+// function ByWeather() {
+//   return <h2 className='home'>By Weather</h2>;
+// }
 
 function ByWeatherPlay() {
   return <h2 className='home'>By Weather playlist</h2>;

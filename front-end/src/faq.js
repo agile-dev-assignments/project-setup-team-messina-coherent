@@ -2,9 +2,9 @@ import './faq.css';
 
 function FAQ() {
   return (
-    <div className=‘searchbar’>
-      <div className=‘contentOR’>
-        <p className=‘or’ style={{color: ‘white’, fontWeight: ‘700’}}>
+    <div className='searchbar'>
+      <div className='contentOR'>
+        <p className='or' style={{color: 'white', fontWeight: '700'}}>
           Frequently Asked Questions
         </p>
       </div>
@@ -27,7 +27,7 @@ function FAQ() {
       <hr/>
       <h3>How do I contact the developers if I have any more questions?</h3>
       <p>
-        You can contact us using the form that is listed in the <a href=“/contact”>Contact Page</a>.
+        You can contact us using the form that is listed in the <a href='/contact'>Contact Page</a>.
       </p>
     </div>
   );

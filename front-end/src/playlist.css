@@ -1,0 +1,33 @@
+.playlist {
+  padding: 0 20px;
+  color: white;
+}
+
+.playlist img {
+  float: left;
+  height: 100px;
+  width: 100px;
+  display: flex;
+}
+
+/* .playlist hr{
+    float: left;
+} */
+
+.playText {
+  float: right;
+}
+
+.row {
+  display: flex;
+}
+/* Create two equal columns that sits next to each other */
+.column-1 {
+  flex: 36%;
+  padding: 10px;
+}
+
+.column-2 {
+    flex: 64%;
+    padding: 10px;
+  }

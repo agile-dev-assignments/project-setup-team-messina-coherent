@@ -91,7 +91,7 @@ const Accordion = forwardRef(({ question, answer, index, isOpened, duration = 30
 
 Accordion.propTypes = {
   question: PropTypes.string.isRequired,
-  answer: PropTypes.string.isRequired,
+  answer: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   isOpened: PropTypes.bool,
   duration: PropTypes.number,
