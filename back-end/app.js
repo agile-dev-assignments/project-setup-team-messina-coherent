@@ -50,22 +50,20 @@ function playlistFinder(filter){
         offset : 0
       })
     .then(function(data) {
-      console.log(data.body);
-    }, function(err) {
+        playlists.items.map(function(item){
+            return item.id;
+        })
+    }
+    .then(function(playlistID){
+        return spotifyApi.getPlaylistTracks(playlistID);
+    })
+    .then(function(data){
+        data.items.map(function(values){
+            console.log(getTrackGenre(values.track.id))
+        })
+    }), function(err) {
       console.log("Something went wrong!", err);
     });
-
-
-    spotifyApi.getPlaylistTracks(playlistID, {
-      })
-      .then(
-        function(data) {
-          console.log('The playlist contains these tracks', data.body);
-        },
-        function(err) {
-          console.log('Something went wrong!', err);
-        }
-      );
 }
 
 
