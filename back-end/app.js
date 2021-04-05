@@ -7,12 +7,18 @@ const morgan = require('morgan'); // middleware for nice logging of incoming HTT
 // use the morgan middleware to log all incoming http requests
 //app.use(morgan('dev')); // morgan has a few logging default styles - dev is a nice concise color-coded style
 
+const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
 // use the bodyparser middleware to parse any data included in a request
 app.use(express.json()); // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })); // decode url-encoded incoming POST data
-
+app.set('view engine', 'html');
 // make 'public' directory publicly readable with static content
 app.use('/static', express.static('public'));
+
+app.use(express.static(__dirname + '/public')).use(cors()).use(cookieParser());
 
 /**
  * Typically, all middlewares would be included before routes
@@ -65,12 +71,45 @@ function playlistFinder(filter){
       console.log("Something went wrong!", err);
     });
 }
+/*
+Write a component to get a user's saved tracks
+*/
+function getSavedTracks(){
+  spotifyApi.getMySavedTracks({
+    limit : 2,
+    offset: 1
+  })
+  .then(function(data){
+    data.map((node)=>{
+      console.log(node.body);
+    });
+    console.log('Done!');
+  }, function(err){
+    console.log('Something went wrong!', err);
+  });
+}
+/*
+Components to do the login for the site thru Spotify 
+*/
+const client_id = '0aa3357a8ce94adf8571ed29f3d59e33'; // Your client id
+const client_secret = 'c085945032cb470c97081d505ee53786'; // Your secret
+const redirect_uri = 'http://localhost:3000/'; // Your redirect uri
 
+const stateKey = 'spotify_auth_state';
 
-
+app.get('/login', function(req, res) {
+  const scopes = 'user-read-private user-read-email';
+  res.redirect('https://accounts.spotify.com/authorize' +
+    '?client_id=' + client_id+
+    '&response_type=code'  +
+    '&show_dialog=true'+
+    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+    '&redirect_uri=' + encodeURIComponent(redirect_uri));
+  });
+  
 // route for HTTP GET requests to the root document
 app.get('/', (req, res) => {
-  res.send('Hello!');
+  res.render('index');
 });
 
 // route for HTTP GET requests to /html-example
