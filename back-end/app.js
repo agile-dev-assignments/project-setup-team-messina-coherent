@@ -1,5 +1,6 @@
 const express = require('express'); // CommonJS import style!
 const app = express(); // instantiate an Express object
+require("dotenv").config({ silent: true })
 
 const axios = require('axios'); // middleware for making requests to APIs
 
@@ -21,6 +22,7 @@ app.use('/static', express.static('public'));
  */
 
 var SpotifyWebApi = require('spotify-web-api-node');
+const bodyParser = require('body-parser');
 
 var spotifyApi = new SpotifyWebApi();
 
@@ -66,11 +68,9 @@ function playlistFinder(filter){
     });
 }
 
-
-
 // route for HTTP GET requests to the root document
 app.get('/', (req, res) => {
-  res.send('Hello!');
+  res.send('hello');
 });
 
 // route for HTTP GET requests to /html-example
@@ -78,7 +78,39 @@ app.get('/party', (req, res) => {
   res.send();
 });
 
+
+app.get("/by-weather", (req, res, next) => {
+  // insert the environmental variable into the URL we're requesting
+  axios
+    .get(`${process.env.API_BASE_URL}?zip=08824&appid=${process.env.API_SECRET_KEY}`)
+    .then(apiResponse => res.json(apiResponse.data)) // pass data along directly to client
+    .catch(err => next(err)) // pass any errors to express
+})
+
+app.get("/by-weather/:zipcode", async (req, res) => {
+  // use axios to make a request to an API to fetch a single animal's data
+  // we use a Mock API here, but imagine we passed the animalId to a real API and received back data about that animal
+  const apiResponse = await axios
+    .get(
+      `${process.env.API_BASE_URL}?zip=${req.params.zipcode}&appid=${process.env.API_SECRET_KEY}`
+    )
+    .catch(err => next(err)) // pass any errors to express
+
+  // express places parameters into the req.params object
+  const responseData = {
+    status: "wonderful",
+    message: `Imagine we got the data from the API for animal #${req.params.zipcode}`,
+    zipcode: req.params.zipcode,
+    weather_data: apiResponse.data,
+  }
+
+  // send the data in the response
+  res.json(responseData)
+})
+
+
 app.listen(3000);
 
 // export the express app we created to make it available to other modules
 // module.exports = app
+
