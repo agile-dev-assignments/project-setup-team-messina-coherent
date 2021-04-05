@@ -1,5 +1,6 @@
 const express = require('express'); // CommonJS import style!
 const app = express(); // instantiate an Express object
+require("dotenv").config({ silent: true })
 
 const axios = require('axios'); // middleware for making requests to APIs
 
@@ -27,50 +28,103 @@ app.use(express.static(__dirname + '/public')).use(cors()).use(cookieParser());
  */
 
 var SpotifyWebApi = require('spotify-web-api-node');
+const bodyParser = require('body-parser');
 
-var spotifyApi = new SpotifyWebApi();
+var credentials = {
+  clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
+  clientSecret: 'ef94a00d195c462ea765c26987930804',
+};
+
+var spotifyApi = new SpotifyWebApi(credentials);
+
+spotifyApi.clientCredentialsGrant().then(
+    function(data) {
+      console.log('The access token expires in ' + data.body['expires_in']);
+      console.log('The access token is ' + data.body['access_token']);
+  
+      // Save the access token so that it's used in future calls
+      spotifyApi.setAccessToken(data.body['access_token']);
+    },
+    function(err) {
+      console.log('Something went wrong when retrieving an access token', err);
+    }
+  );
+
+// var spotifyApi = new SpotifyWebApi();
 
 /**
  * Get metadata of tracks, albums, artists, shows, and episodes
  */
 
-// Get 
-function getTrackGenre(id) {
-  spotifyApi.getTrack(id).then(
-    function(data) {
-        return spotifyApi.getArtist(data.album.artists.id);
-      })
-    .then(function(data) {
-        console.log(data.genres);
-        return data.genres;
+// Get genre from track
+function getTrackGenre(id, callback) {
+    //console.log("Track ID: " + id)
+  spotifyApi
+    .getTrack(id)
+    .then(function (data) {
+        //console.log("Artist ID: " + data.body.artists[0].id)
+        return spotifyApi.getArtist(data.body.artists[0].id);
     })
-    .catch (function (err) {
-        console.error(err);
+    .then(function (data) {
+      //console.log(data.body.genres.pop());
+      callback(data.body.genres.pop());
     })
+    
+    .catch(function (err) {
+      console.error(err);
+    });
+    
 }
 
-function playlistFinder(filter){
-    spotifyApi.getPlaylistsForCategory(filter, {
+
+
+function playlistFinder(filter, callback){
+
+    // spotifyApi.searchPlaylists('rap', {
+    //     country: 'US',
+    //     limit : 2,
+    //     offset : 0
+    //   })
+    // .then(function(data) {
+    //   console.log(data.body);
+    // }, function(err) {
+    //   console.log("Something went wrong!", err);
+    // });
+
+    mainData = [];
+
+    spotifyApi.searchPlaylists(filter, {
         country: 'US',
         limit : 6,
         offset : 0
       })
     .then(function(data) {
-        playlists.items.map(function(item){
-            return item.id;
+        //console.log(data)
+        data.body.playlists.items.map(function(item){
+            mainData.push(item);
+            mainData.push('\n')
+            
+            spotifyApi.getPlaylistTracks(item.id).then(function(data){
+                //console.log(data.body.items);
+            })
+            
         })
+        callback(mainData)
     }
-    .then(function(playlistID){
-        return spotifyApi.getPlaylistTracks(playlistID);
-    })
-    .then(function(data){
-        data.items.map(function(values){
-            console.log(getTrackGenre(values.track.id))
-        })
-    }), function(err) {
+    // .then(function(playlistID){
+    //     console.log(playlistID)
+    //     return spotifyApi.getPlaylistTracks(playlistID);
+    // })
+    // .then(function(data){
+    //     data.body.items.map(function(values){
+    //         console.log(getTrackGenre(values.track.id))
+    //     })
+    // })
+    , function(err) {
       console.log("Something went wrong!", err);
     });
 }
+
 /*
 Write a component to get a user's saved tracks
 */
@@ -88,36 +142,141 @@ function getSavedTracks(){
     console.log('Something went wrong!', err);
   });
 }
+
 /*
 Components to do the login for the site thru Spotify 
 */
-const client_id = '0aa3357a8ce94adf8571ed29f3d59e33'; // Your client id
-const client_secret = 'c085945032cb470c97081d505ee53786'; // Your secret
-const redirect_uri = 'http://localhost:3000/'; // Your redirect uri
 
-const stateKey = 'spotify_auth_state';
+// const client_id = '0aa3357a8ce94adf8571ed29f3d59e33'; // Your client id
+// const client_secret = 'c085945032cb470c97081d505ee53786'; // Your secret
+// const redirect_uri = 'http://localhost:3000/'; // Your redirect uri
 
-app.get('/login', function(req, res) {
-  const scopes = 'user-read-private user-read-email';
-  res.redirect('https://accounts.spotify.com/authorize' +
-    '?client_id=' + client_id+
-    '&response_type=code'  +
-    '&show_dialog=true'+
-    (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-    '&redirect_uri=' + encodeURIComponent(redirect_uri));
-  });
+// const stateKey = 'spotify_auth_state';
+
+// app.get('/login', function(req, res) {
+//   const scopes = 'user-read-private user-read-email';
+//   res.redirect('https://accounts.spotify.com/authorize' +
+//     '?client_id=' + client_id+
+//     '&response_type=code'  +
+//     '&show_dialog=true'+
+//     (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
+//     '&redirect_uri=' + encodeURIComponent(redirect_uri));
+//   });
   
 // route for HTTP GET requests to the root document
 app.get('/', (req, res) => {
   res.render('index');
+
+
+
+// scopes = ['user-read-private', 'user-read-email'];
+
+
+
+// route for HTTP GET to see the genre of random song of choice
+app.get('/genre-getter', async (req, res) => {
+    //var result = await spotifyApi.getUserPlaylists();
+  getTrackGenre('4DuUwzP4ALMqpquHU0ltAB', function(result){
+    console.log(result)
+    res.send(result);
+  });
+  
 });
 
-// route for HTTP GET requests to /html-example
-app.get('/party', (req, res) => {
-  res.send();
+app.get('/party', async (req, res) => {
+    //var result = await spotifyApi.getUserPlaylists();
+  playlistFinder('party', function(result){
+    console.log(result);
+    res.send(result);
+  })
+  
+  
 });
+
+app.get('/in-my-feels', async (req, res) => {
+    //var result = await spotifyApi.getUserPlaylists();
+  playlistFinder('feels', function(result){
+    console.log(result);
+    res.send(result);
+  })
+  
+  
+});
+
+app.get('/on-my-grind', async (req, res) => {
+    //var result = await spotifyApi.getUserPlaylists();
+  playlistFinder('workout', function(result){
+    console.log(result);
+    res.send(result);
+  })
+  
+  
+});
+
+
+
+app.get("/by-weather", (req, res, next) => {
+  // insert the environmental variable into the URL we're requesting
+  axios
+    .get(`${process.env.API_BASE_URL}?zip=08824&appid=${process.env.API_SECRET_KEY}`)
+    .then(apiResponse => res.json(apiResponse.data)) // pass data along directly to client
+    .catch(err => next(err)) // pass any errors to express
+})
+
+app.get("/by-weather/:zipcode", async (req, res) => {
+  // use axios to make a request to an API to fetch a single animal's data
+  // we use a Mock API here, but imagine we passed the animalId to a real API and received back data about that animal
+  const apiResponse = await axios
+    .get(
+      `${process.env.API_BASE_URL}?zip=${req.params.zipcode}&appid=${process.env.API_SECRET_KEY}`
+    )
+    .catch(err => next(err)) // pass any errors to express
+
+  // express places parameters into the req.params object
+  const responseData = {
+    status: "wonderful",
+    message: `Imagine we got the data from the API for animal #${req.params.zipcode}`,
+    zipcode: req.params.zipcode,
+    weather_data: apiResponse.data,
+  }
+
+  // send the data in the response
+  res.json(responseData)
+})
+
+app.get('/plotting-my-revenge', async (req, res) => {
+    //var result = await spotifyApi.getUserPlaylists();
+  playlistFinder('motivated', function(result){
+    console.log(result);
+    res.send(result);
+  })
+  
+  
+});
+
+app.get('/romantic', async (req, res) => {
+    //var result = await spotifyApi.getUserPlaylists();
+  playlistFinder('romantic', function(result){
+    console.log(result);
+    res.send(result);
+  })
+  
+  
+});
+
+app.get('/mood-boosters', async (req, res) => {
+    //var result = await spotifyApi.getUserPlaylists();
+  playlistFinder('happy', function(result){
+    console.log(result);
+    res.send(result);
+  })
+  
+  
+});
+
 
 app.listen(3000);
 
 // export the express app we created to make it available to other modules
 // module.exports = app
+
