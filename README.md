@@ -30,6 +30,13 @@ The project was built on the idea of giving the user a more personalized experie
 
 To be updated when our project reaches that stage.
 
+To see how to by-weather page works:
+1. Clone our repository, cd into the back-end folder
+2. On the terminal write npm install, which installs all dependencies
+3. On the terminal write node app.js
+4. In your browser, navigate to https://localhost:3000/by-weather/{zipcode}, inserting your desired zipcode
+5. The page will display a json with weather data for the zipcode
+
 ### Additional Links
 [UX-Design Repo](https://github.com/agile-dev-assignments/user-experience-design-team-messina-coherent)
 
