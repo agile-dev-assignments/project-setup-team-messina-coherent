@@ -125,6 +125,51 @@ function playlistFinder(filter, callback){
     });
 }
 
+//function to tally up the genre of a users playlist 
+
+function playlistally(playl){
+  let ar = new Array();
+
+  spotifyApi.getPlaylist(playl)
+  .then(function(data) {
+    console.log('Some information about this playlist', data.body);
+
+    //iterate through the json of tracks
+
+
+    for (let key in data.body) {
+      //Does this return back?
+      let tr = getTrackGenre(key);
+
+      //now adding the track to the array
+
+      //if it already exists increment 
+      for (let art in ar ) {
+        if (tr.name === art.name) {
+          art.count++;
+        }
+         
+        else{
+          let obj = {name : tr.name, count : 1};
+
+          ar.push(obj);
+
+        }
+
+      }
+
+    }
+    //Returns array of objects with properties of name of genre and the tallies associated with it 
+    return ar;
+    
+
+  }, function(err) {
+    console.log('Something went wrong!', err);
+  });
+
+
+}
+
 /*
 Write a component to get a user's saved tracks
 */
