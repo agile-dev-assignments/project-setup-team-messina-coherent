@@ -212,9 +212,33 @@ Components to do the login for the site thru Spotify
 app.get('/', (req, res) => {
   res.render('index');
 
-
+// 
 
 // scopes = ['user-read-private', 'user-read-email'];
+  
+  
+//route for HTTP GET request to get user ID and username
+  async getUserID(AccessToken)
+  {
+    const headers = {
+        Authorization: 'Bearer ${myToken}'
+    };
+  
+  let userID = '';
+  let username = '';
+  const response = await fetch(app.get('https://api.spotify.com/v1/me',
+                                       {
+                                       headers : headers
+                                       }
+                                       ));
+  const jsonResponse = await response.json();
+  if(jsonResponse)
+  {
+    userID = jsonResponse.id;
+    username = jsonResponse.display_name;
+  }
+    return userID, username;
+  }
 
 
 
