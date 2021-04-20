@@ -242,6 +242,7 @@ Components to do the login for the site thru Spotify
 app.get('/', (req, res) => {
   res.render('index');
 
+
 // 
 
 // scopes = ['user-read-private', 'user-read-email'];

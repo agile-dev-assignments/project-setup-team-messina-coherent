@@ -12,8 +12,9 @@ const Userchema = mongoose.Schema({
 
 mongoose.model('User', UserSchema);
 
+mongodb+srv://<username>:<password>@cluster0.jubh3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+
 mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
@@ -25,3 +26,6 @@ mongoose.connect('mongodb://localhost:27017/hw08', (err, database) => {
     
   }
 });
+
+messina
+y8YFCvfM6GOMidtg
