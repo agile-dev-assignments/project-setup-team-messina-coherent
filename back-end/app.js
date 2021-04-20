@@ -13,6 +13,10 @@ const morgan = require('morgan'); // middleware for nice logging of incoming HTT
 //app.use(morgan('dev')); // morgan has a few logging default styles - dev is a nice concise color-coded style
 
 
+//Getting the express validator
+const { body, validationResult } = require('express-validator');
+
+
 var cors = require('cors');
 
 app.use(cors());
