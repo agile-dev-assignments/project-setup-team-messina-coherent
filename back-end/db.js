@@ -11,7 +11,7 @@ const Userchema = mongoose.Schema({
   playlists: Array
 });
 
-mongoose.model('User', UserSchema);
+module.exports=mongoose.model('User', UserSchema);
 
 
 let urlm =`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.jubh3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;

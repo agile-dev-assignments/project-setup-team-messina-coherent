@@ -3,7 +3,7 @@ const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
 
 
-require('./db');
+const User= require('./db');
 const mongoose = require('mongoose');
 
 const axios = require('axios'); // middleware for making requests to APIs
