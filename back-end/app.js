@@ -2,6 +2,7 @@ const express = require('express'); // CommonJS import style!
 const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
 
+
 require('./db');
 const mongoose = require('mongoose');
 
@@ -241,6 +242,7 @@ Components to do the login for the site thru Spotify
 // route for HTTP GET requests to the root document
 app.get('/', (req, res) => {
   res.render('index');
+
 
 // 
 
