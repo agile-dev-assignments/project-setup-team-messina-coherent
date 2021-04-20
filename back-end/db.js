@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 //using mongoose models
 //This is the schema or the model of the data entry objects 
@@ -12,13 +13,14 @@ const Userchema = mongoose.Schema({
 
 mongoose.model('User', UserSchema);
 
-mongodb+srv://<username>:<password>@cluster0.jubh3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
+
+let urlm =`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.jubh3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-mongoose.connect('mongodb://localhost:27017/hw08', (err, database) => {
+mongoose.connect(urlm, (err, database) => {
   if (err) {
     return console.log(err);
   } else {
@@ -26,6 +28,3 @@ mongoose.connect('mongodb://localhost:27017/hw08', (err, database) => {
     
   }
 });
-
-messina
-y8YFCvfM6GOMidtg
