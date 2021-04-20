@@ -27,6 +27,7 @@
     "mongoose": "^5.12.5",
     "morgan": "^1.10.0",
     "querystring": "^0.2.1",
+    "react": "^17.0.2",
     "spotify-web-api-node": "^5.0.2"
   }
 }

@@ -73,8 +73,8 @@ app.get('/callback', async(req,res)=>{
 
       console.log('Successful!');
       
-      res.send('Success!');
-
+      // res.send('Success!');
+      res.redirect('http://localhost:3000/');
       setInterval(async ()=>{
         const data = await spotifyApi.refreshAccessToken();
         const access_token = data.body['access_token'];
