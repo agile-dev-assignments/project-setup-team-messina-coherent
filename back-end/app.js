@@ -3,9 +3,9 @@ const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
 
 
-const User= require('./db');
+//const User= require('./db');
 
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 
 const axios = require('axios'); // middleware for making requests to APIs
 
@@ -75,13 +75,10 @@ async function getTaste(id) {
   try {
     if (id != undefined || id != null) {
       const playlist = await getPlaylistWithTracks(id);
-      if (playlist != null || playlist != undefined) {
+      if (playlist && playlist.tracks && playlist.tracks.items) {
         let tracksIds = playlist.tracks.items.map((item) => {
-          if (item != null || item.track.id != null || item.track.id != undefined) {
+          if (item != null && item.track != null) {
             return item.track.id;
-          }
-          else{
-              return;
           }
         });
 
@@ -205,11 +202,8 @@ async function playlistFinder(filter, offset) {
     console.log(playlistData.body.playlists.items);
     console.log(playlistData.body.playlists.items[0].id);
     if (
-      playlistData.body.playlists.items[0].id != undefined ||
-      playlistData.body.playlists.items[0].id != 'undefined' ||
-      playlistData.body.playlists.items[0].id != null ||
-      playlistData.body.playlists.items[0] != undefined ||
-      playlistData.body.playlists.items[0] != null
+      playlistData && playlistData.body && playlistData.body.playlists
+       && playlistData.body.playlists.items && playlistData.body.playlists.items[0].id
     ) {
       //console.log(playlistData.body.playlists)
 
@@ -287,6 +281,29 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+app.get('/test', async (req,res) => {
+    const myTaste = await getTaste('37i9dQZF1DX7qK8ma5wgG1');
+    let i = 0
+    while (i< 5) {
+        const playlist = await playlistFinder('focus', i);
+        //console.log('PLAYLIST' + playlist);
+        if(Object.keys(playlist)[0] != null || Object.keys(playlist)[0] != undefined){
+            if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
+                console.log('MATCH');
+            }
+        }
+        
+        //   const newP = await spotifyApi.getPlaylist(playlist.id);
+        //   newP['sum'] = playlist.sum;
+        //   playlistArray.push(newP);
+        //   //     //playlistArray.push((await spotifyApi.getPlaylist(Object.keys(playlist)['id'])).body);
+        // }
+        i++;
+        //console.log(Object.keys(myTaste)[0]);
+        //console.log("PLAYLIST" + Object.keys(playlist)[0]);
+      }
+});
+
 // 
 
 // scopes = ['user-read-private', 'user-read-email'];
@@ -294,53 +311,53 @@ app.get('/', (req, res) => {
   
 //route for HTTP GET request to get user ID and username
 
-  async function getUserID(AccessToken)
-  {
-    const headers = {
-        Authorization: 'Bearer ${myToken}'
-    };
+//   async function getUserID(AccessToken)
+//   {
+//     const headers = {
+//         Authorization: 'Bearer ${myToken}'
+//     };
   
-  let userID = '';
-  let userName = '';
-  const response = await fetch(app.get('https://api.spotify.com/v1/me',
-                                       {
-                                       headers : headers
-                                       }
-                                       ));
-  const jsonResponse = await response.json();
-  if(jsonResponse)
-  {
-    userID = jsonResponse.id;
-    userName = jsonResponse.display_name;
-  }
+//   let userID = '';
+//   let userName = '';
+//   const response = await fetch(app.get('https://api.spotify.com/v1/me',
+//                                        {
+//                                        headers : headers
+//                                        }
+//                                        ));
+//   const jsonResponse = await response.json();
+//   if(jsonResponse)
+//   {
+//     userID = jsonResponse.id;
+//     userName = jsonResponse.display_name;
+//   }
 
-  // Check if database already has this user
-  User.find({username:userName,userid:userID}, function(err,result){
-    if (err){
-      console.log(err);
-    }else {
+//   // Check if database already has this user
+//   User.find({username:userName,userid:userID}, function(err,result){
+//     if (err){
+//       console.log(err);
+//     }else {
 
-      //check if the result is empty or not 
-      if (result == " "){
+//       //check if the result is empty or not 
+//       if (result == " "){
 
-        //create the new user 
-        let newus = User({username:userName,userid:userID,playlists:[]});
+//         //create the new user 
+//         let newus = User({username:userName,userid:userID,playlists:[]});
 
-        //After creating,save it 
-        newus.save(function(err,doc){
-          if (err){
-            console.log(err);
-          }else {console.log("Entered database")};
+//         //After creating,save it 
+//         newus.save(function(err,doc){
+//           if (err){
+//             console.log(err);
+//           }else {console.log("Entered database")};
           
-        })
-      }
+//         })
+//       }
 
 
-    }
-  })
+//     }
+//   })
   
-    return userID, userName;
-  }
+//     return userID, userName;
+//   }
 
 
 // route for HTTP GET to see the genre of random song of choice
@@ -390,17 +407,19 @@ app.get('/party', async (req, res) => {
 app.get('/in-my-feels', async (req, res) => {
   try {
     let playlistArray = [];
-    const myTaste = await getTaste('6aPPck00Cxswo5A6kibFVU');
+    const myTaste = await getTaste('3dOOQtx8sMg6IBOa8GzGBY');
     // const playlist = await playlistFinder('party',0);
     if (Object.keys(myTaste)[0] != undefined) {
       console.log(Object.keys(myTaste)[0]);
     }
 
     let i = 0;
-    while (playlistArray.length < 5) {
-      const playlist = await playlistFinder('sad', i);
+    while (playlistArray.length < 4) {
+      const playlist = await playlistFinder('hurt', i);
       console.log('PLAYLIST' + playlist);
-      if (Object.keys(myTaste)[0] === Object.keys(playlist)[0] && playlist != undefined) {
+      if (Object.keys(myTaste)[0] === Object.keys(playlist)[0] || Object.keys(myTaste)[0] === Object.keys(playlist)[1]
+      || Object.keys(myTaste)[0] == Object.keys(playlist)[2] || Object.keys(myTaste)[0] == Object.keys(playlist)[3] 
+      || Object.keys(myTaste)[0] === Object.keys(playlist)[4] || Object.keys(myTaste)[0] == Object.keys(playlist)[5]  && playlist != undefined) {
         console.log('MATCH');
         const newP = await spotifyApi.getPlaylist(playlist.id);
         newP['sum'] = playlist.sum;
@@ -429,7 +448,7 @@ app.get('/on-my-grind', async (req, res) => {
 
     let i = 0;
     while (playlistArray.length < 5) {
-      const playlist = await playlistFinder('grind', i);
+      const playlist = await playlistFinder('focus', i);
       console.log('PLAYLIST' + playlist);
       if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
         console.log('MATCH');
@@ -479,7 +498,7 @@ app.get("/by-weather/:zipcode", async (req, res) => {
   res.json(responseData)
 })
 
-app.get('/plotting-my-revenge', async (req, res) => {
+app.get('/getting-gains', async (req, res) => {
   //var result = await spotifyApi.getUserPlaylists();
   try {
     let playlistArray = [];
@@ -491,7 +510,7 @@ app.get('/plotting-my-revenge', async (req, res) => {
 
     let i = 0;
     while (playlistArray.length < 6) {
-      const playlist = await playlistFinder('motivated', i);
+      const playlist = await playlistFinder('workout', i);
       console.log('PLAYLIST' + playlist);
       if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
         console.log('MATCH');
@@ -522,7 +541,7 @@ app.get('/romantic', async (req, res) => {
 
     let i = 0;
     while (playlistArray.length < 6) {
-      const playlist = await playlistFinder('romantic', i);
+      const playlist = await playlistFinder('love', i);
       console.log('PLAYLIST' + playlist);
       if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
         console.log('MATCH');
@@ -545,14 +564,14 @@ app.get('/mood-boosters', async (req, res) => {
   //var result = await spotifyApi.getUserPlaylists();
   try {
     let playlistArray = [];
-    const myTaste = await getTaste('37i9dQZF1DXaXB8fQg7xif');
+    const myTaste = await getTaste('37i9dQZF1DX84kJlLdo9vT');
     // const playlist = await playlistFinder('party',0);
     if (Object.keys(myTaste)[0] != undefined) {
       console.log(Object.keys(myTaste)[0]);
     }
 
     let i = 0;
-    while (playlistArray.length < 6) {
+    while (playlistArray.length < 4) {
       const playlist = await playlistFinder('happy', i);
       console.log('PLAYLIST' + playlist);
       if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {

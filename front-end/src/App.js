@@ -64,8 +64,8 @@ function App() {
             <ByWeather url="romantic" name={"Romantic"} />
           </Route>
 
-          <Route path='/on-my-grind'>
-            <ByWeather url="on-my-grind" name={"On My Grind"} />
+          <Route path='/getting-gains'>
+            <ByWeather url="getting-gains" name={"Getting Gains"} />
           </Route>
 
           <Route path='/plotting-my-revenge'>
@@ -112,10 +112,6 @@ function App() {
 // function ByWeather() {
 //   return <h2 className='home'>By Weather</h2>;
 // }
-
-function ByWeatherPlay() {
-  return <h2 className='home'>By Weather playlist</h2>;
-}
 
 export default App;
 
