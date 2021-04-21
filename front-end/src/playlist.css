@@ -28,6 +28,14 @@
 }
 
 .column-2 {
-    flex: 64%;
-    padding: 10px;
-  }
+  flex: 64%;
+  padding: 10px;
+}
+
+.playlist a {
+  color: white;
+}
+
+.playlist a:hover {
+  color: #57EB07;
+}

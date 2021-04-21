@@ -2,7 +2,7 @@ import './About.css';
 import Headers from './About_Header.js'
 function About(){
     return (
-        <div>
+        <div className="about">
             <Headers />
             <p className="aboutP">Our project, How Does Your Music Taste Compare?, is going to, via the Spotify API, determine a users music taste. 
             This will be done by determining the genre percentages of this users library. That is the 
