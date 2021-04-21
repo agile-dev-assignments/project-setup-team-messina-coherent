@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/agile-dev-assignments/project-setup-team-messina-coherent#readme",
   "dependencies": {
+<<<<<<< HEAD
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -29,5 +30,8 @@
     "querystring": "^0.2.1",
     "react": "^17.0.2",
     "spotify-web-api-node": "^5.0.2"
+=======
+    "dotenv": "^8.2.0"
+>>>>>>> bf4a04e8d201c3991ea1b09ef4010b130e72361c
   }
 }
