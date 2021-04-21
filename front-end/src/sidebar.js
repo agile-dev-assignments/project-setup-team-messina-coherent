@@ -11,27 +11,27 @@ function Sidebar() {
       question: 'By Mood',
       answer: (
         <>
-          <a className='menu-item' href='/byMood/playlist'>
+          <a className='menu-item' href='/mood-boosters'>
             Mood Boosters
           </a>
           <br></br>
-          <a className='menu-item' href='/byMood/playlist'>
+          <a className='menu-item' href='/in-my-feels'>
             In My Feels
           </a>
           <br></br>
-          <a className='menu-item' href='/byMood/playlist'>
+          <a className='menu-item' href='/romantic'>
             Romantic
           </a>
           <br></br>
-          <a className='menu-item' href='/byMood/playlist'>
+          <a className='menu-item' href='/on-my-grind'>
             On My Grind
           </a>
           <br></br>
-          <a className='menu-item' href='/byMood/playlist'>
+          <a className='menu-item' href='/plotting-my-revenge'>
             Plotting My Revenge
           </a>
           <br></br>
-          <a className='menu-item' href='/byMood/playlist'>
+          <a className='menu-item' href='/party'>
             Party
           </a>
           <br></br>

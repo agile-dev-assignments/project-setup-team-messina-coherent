@@ -4,61 +4,38 @@ import axios from 'axios';
 import Playlist from './playlist';
 
 
-// async function fetchData() {
-//     // axios is a 3rd-party module for fetching data from servers
-//     const result = await axios.get(
-//       // retrieving some mock data about animals for sale
-//       "https://my.api.mockaroo.com/mock_api.json?key=5efe2840"
-//     );
-//     // set the state variable
-//     // this will cause a re-render of this component
-//     console.log("," + result.data);
-//     // setData(result.data);
-//     return result.data;
-//   }
-
 function ByWeather(props) {
-    const [data, setData] = useState({});
+  console.log(props)
+    const [data, setData] = useState('');
 
-  const [hasError, setErrors] = useState(false);
+    const [isLoading, setLoading] = useState(true);
+    const url = 'http://localhost:3001/' + props.url;
+    console.log(url)
+    useEffect(() => {
+      axios.get(url).then(response => {
+        setData(response.data);
+        setLoading(false);
+      });
+    }, []);
 
-  async function fetchData() {
-    const res = await fetch('https://my.api.mockaroo.com/mock_api.json?key=5efe2840');
-    res
-      .json()
-      .then((res) =>  setData(res))
-      .catch((err) => setErrors(err));
+    console.log(data)
+    if(isLoading == false){
+      data.map(function(item){
+        console.log(item.body.images[0].url)
+        })
+      }
 
-     
-  }
-  console.log(data)
-  
-  useEffect(() => {
-    fetchData();
-    
-  }, []);
-
-// useEffect(() => {
-//     // a nested function that fetches the data
-//     console.log("Line 28")
-    
-
-
-//     // fetch the data!
-//     let myResult = fetchData();
-//     setData(myResult);
-
-//     // the blank array below causes this callback to be executed only once on component load
-//   }, []);
 
   return (
     
     <>
-    {console.log(data)}
-    <h1 id='weather'>{props.name} </h1>
-      {data && data.map((item) => (
-        <Playlist details={item}></Playlist>
-      ))}
+    <h1 id="weather">{props.name}</h1>
+    {isLoading ? (<p style={{padding:'20px'}}>Loading your playlists...</p>) : (data.map((item) => <Playlist id={item.body.id} name={item.body.name} tracks={item.sum} images={item.body.images[0].url}></Playlist>))}
+    
+
+
+    
+   
 
     </>
       
