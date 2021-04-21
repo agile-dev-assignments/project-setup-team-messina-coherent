@@ -43,26 +43,79 @@ app.use(express.static(__dirname + '/public')).use(cors()).use(cookieParser());
 
 var SpotifyWebApi = require('spotify-web-api-node');
 const bodyParser = require('body-parser');
+var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'];
 
-var credentials = {
-  clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
-  clientSecret: 'ef94a00d195c462ea765c26987930804',
-};
+var spotifyApi = new SpotifyWebApi({
+  clientId: '0aa3357a8ce94adf8571ed29f3d59e33',
+  clientSecret: 'c085945032cb470c97081d505ee53786',
+  redirectUri : 'http://localhost:3001/callback'
+});
+app.get('/login', (req,res)=>{
+  res.redirect(spotifyApi.createAuthorizeURL(scopes));
+  // console.log(html);
+  // res.redirect(html+"&show_dialog=true");
+});
 
-var spotifyApi = new SpotifyWebApi(credentials);
-
-spotifyApi.clientCredentialsGrant().then(
-  function (data) {
-    console.log('The access token expires in ' + data.body['expires_in']);
-    console.log('The access token is ' + data.body['access_token']);
-
-    // Save the access token so that it's used in future calls
-    spotifyApi.setAccessToken(data.body['access_token']);
-  },
-  function (err) {
-    console.log('Something went wrong when retrieving an access token', err);
+app.get('/callback', async(req,res)=>{
+  const error = req.query.error;
+  const code = req.query.code;
+  const state = req.query.state;
+  if(error){
+    console.log(error);
+    res.send('Callback Error: '+error);
   }
-);
+  spotifyApi
+    .authorizationCodeGrant(code)
+    .then(data =>{
+      const access_token = data.body['access_token'];
+      const refresh_token = data.body['refresh_token'];
+      const expires_in = data.body['expires_in'];
+
+      spotifyApi.setAccessToken(access_token);
+      spotifyApi.setRefreshToken(refresh_token);
+
+      console.log('access_token', access_token);
+      console.log('refresh_token', refresh_token);
+
+      console.log('Successful!');
+      
+      // res.send('Success!');
+      res.redirect('http://localhost:3000/');
+      setInterval(async ()=>{
+        const data = await spotifyApi.refreshAccessToken();
+        const access_token = data.body['access_token'];
+
+        console.log('The access token has been refreshed!');
+        console.log('access_token', access_token);
+        spotifyApi.setAccessToken(access_token);
+      }, expires_in/2 *1000);
+    })
+    .catch(error =>{
+      console.log('Error getting Tokens: ', error);
+      res.send('Error getting tokens: '+ error);
+    });
+    
+
+});
+// var credentials = {
+//   clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
+//   clientSecret: 'ef94a00d195c462ea765c26987930804',
+// };
+
+// var spotifyApi = new SpotifyWebApi(credentials);
+
+// spotifyApi.clientCredentialsGrant().then(
+//   function (data) {
+//     console.log('The access token expires in ' + data.body['expires_in']);
+//     console.log('The access token is ' + data.body['access_token']);
+
+//     // Save the access token so that it's used in future calls
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//   },
+//   function (err) {
+//     console.log('Something went wrong when retrieving an access token', err);
+//   }
+// );
 
 // var spotifyApi = new SpotifyWebApi();
 
@@ -277,34 +330,37 @@ Components to do the login for the site thru Spotify
 //   });
   
 // route for HTTP GET requests to the root document
+
 app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/test', async (req,res) => {
-    const myTaste = await getTaste('37i9dQZF1DX7qK8ma5wgG1');
-    let i = 0
-    while (i< 5) {
-        const playlist = await playlistFinder('focus', i);
-        //console.log('PLAYLIST' + playlist);
-        if(Object.keys(playlist)[0] != null || Object.keys(playlist)[0] != undefined){
-            if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
-                console.log('MATCH');
-            }
-        }
+
+// app.get('/test', async (req,res) => {
+//     const myTaste = await getTaste('37i9dQZF1DX7qK8ma5wgG1');
+//     let i = 0
+//     while (i< 5) {
+//         const playlist = await playlistFinder('focus', i);
+//         //console.log('PLAYLIST' + playlist);
+//         if(Object.keys(playlist)[0] != null || Object.keys(playlist)[0] != undefined){
+//             if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
+//                 console.log('MATCH');
+//             }
+//         }
         
-        //   const newP = await spotifyApi.getPlaylist(playlist.id);
-        //   newP['sum'] = playlist.sum;
-        //   playlistArray.push(newP);
-        //   //     //playlistArray.push((await spotifyApi.getPlaylist(Object.keys(playlist)['id'])).body);
-        // }
-        i++;
-        //console.log(Object.keys(myTaste)[0]);
-        //console.log("PLAYLIST" + Object.keys(playlist)[0]);
-      }
-});
+//         //   const newP = await spotifyApi.getPlaylist(playlist.id);
+//         //   newP['sum'] = playlist.sum;
+//         //   playlistArray.push(newP);
+//         //   //     //playlistArray.push((await spotifyApi.getPlaylist(Object.keys(playlist)['id'])).body);
+//         // }
+//         i++;
+//         //console.log(Object.keys(myTaste)[0]);
+//         //console.log("PLAYLIST" + Object.keys(playlist)[0]);
+//       }
+// });
 
 // 
+
 
 // scopes = ['user-read-private', 'user-read-email'];
   
@@ -358,6 +414,7 @@ app.get('/test', async (req,res) => {
   
 //     return userID, userName;
 //   }
+
 
 
 // route for HTTP GET to see the genre of random song of choice

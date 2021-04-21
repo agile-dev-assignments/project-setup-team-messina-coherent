@@ -28,6 +28,15 @@ The project was built on the idea of giving the user a more personalized experie
 
 ### Building and Testing
 
+**Sprint 3 Update:**
+1. Clone our repository, open up two terminal windows and cd into the back-end and front-end folders
+2. On each terminal write npm install, which installs all dependencies
+3. On the back-end terminal write node app.js, and front-end npm start
+4. Sign in to your Spotify account
+5. Click on "My Taste" to view the taste of your library
+6. Click on any of the mood playlists to view a recommended collection of playlists for that mood based off your library. Each playlist links to the actual Spotify playlist.
+
+------------
 To be updated when our project reaches that stage.
 
 To see how to by-weather page works:
