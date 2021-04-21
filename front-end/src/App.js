@@ -48,6 +48,31 @@ function App() {
             <ByWeather name="By Weather" />
           </Route>
 
+          <Route path='/party'>
+            <ByWeather url="party" name={"Party"} />
+          </Route>
+
+          <Route path='/mood-boosters'>
+            <ByWeather url={"mood-boosters"} name={"Mood Boosters"} />
+          </Route>
+
+          <Route path='/in-my-feels'>
+            <ByWeather url={"in-my-feels"} name={"In My Feels"} />
+          </Route>
+
+          <Route path='/romantic'>
+            <ByWeather url="romantic" name={"Romantic"} />
+          </Route>
+
+          <Route path='/on-my-grind'>
+            <ByWeather url="on-my-grind" name={"On My Grind"} />
+          </Route>
+
+          <Route path='/plotting-my-revenge'>
+            <ByWeather url="plotting-my-revenge" name={"Plotting My Revenge"} />
+          </Route>
+
+
           <Route path='/'>
             <Home />
           </Route>
