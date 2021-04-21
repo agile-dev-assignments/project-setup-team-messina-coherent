@@ -1,0 +1,20 @@
+{
+  "name": "project-setup-team-messina-coherent",
+  "version": "1.0.0",
+  "description": "This repository will be used for team projects. Delete the contents of this file and replace with the contents of a proper README.md, as described in the [project setup instructions](./project-setup-instructions.md)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agile-dev-assignments/project-setup-team-messina-coherent.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agile-dev-assignments/project-setup-team-messina-coherent/issues"
+  },
+  "homepage": "https://github.com/agile-dev-assignments/project-setup-team-messina-coherent#readme"
+}
