@@ -27,8 +27,8 @@ function Sidebar() {
             On My Grind
           </a>
           <br></br>
-          <a className='menu-item' href='/plotting-my-revenge'>
-            Plotting My Revenge
+          <a className='menu-item' href='/getting-gains'>
+            Getting Gains
           </a>
           <br></br>
           <a className='menu-item' href='/party'>
