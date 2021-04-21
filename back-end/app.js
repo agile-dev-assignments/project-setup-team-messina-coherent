@@ -2,11 +2,20 @@ const express = require('express'); // CommonJS import style!
 const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
 
+
+const User= require('./db');
+
+const mongoose = require('mongoose');
+
 const axios = require('axios'); // middleware for making requests to APIs
 
 const morgan = require('morgan'); // middleware for nice logging of incoming HTTP requests
 // use the morgan middleware to log all incoming http requests
 //app.use(morgan('dev')); // morgan has a few logging default styles - dev is a nice concise color-coded style
+
+
+//Getting the express validator
+const { body, validationResult } = require('express-validator');
 
 
 var cors = require('cors');
@@ -276,7 +285,7 @@ Components to do the login for the site thru Spotify
 // route for HTTP GET requests to the root document
 app.get('/', (req, res) => {
   res.render('index');
-})
+});
 
 // 
 
@@ -284,27 +293,54 @@ app.get('/', (req, res) => {
   
   
 //route for HTTP GET request to get user ID and username
-//   async getUserID(AccessToken)
-//   {
-//     const headers = {
-//         Authorization: 'Bearer ${myToken}'
-//     };
+
+  async function getUserID(AccessToken)
+  {
+    const headers = {
+        Authorization: 'Bearer ${myToken}'
+    };
   
-//   let userID = '';
-//   let username = '';
-//   const response = await fetch(app.get('https://api.spotify.com/v1/me',
-//                                        {
-//                                        headers : headers
-//                                        }
-//                                        ));
-//   const jsonResponse = await response.json();
-//   if(jsonResponse)
-//   {
-//     userID = jsonResponse.id;
-//     username = jsonResponse.display_name;
-//   }
-//     return userID, username;
-//   }
+  let userID = '';
+  let userName = '';
+  const response = await fetch(app.get('https://api.spotify.com/v1/me',
+                                       {
+                                       headers : headers
+                                       }
+                                       ));
+  const jsonResponse = await response.json();
+  if(jsonResponse)
+  {
+    userID = jsonResponse.id;
+    userName = jsonResponse.display_name;
+  }
+
+  // Check if database already has this user
+  User.find({username:userName,userid:userID}, function(err,result){
+    if (err){
+      console.log(err);
+    }else {
+
+      //check if the result is empty or not 
+      if (result == " "){
+
+        //create the new user 
+        let newus = User({username:userName,userid:userID,playlists:[]});
+
+        //After creating,save it 
+        newus.save(function(err,doc){
+          if (err){
+            console.log(err);
+          }else {console.log("Entered database")};
+          
+        })
+      }
+
+
+    }
+  })
+  
+    return userID, userName;
+  }
 
 
 // route for HTTP GET to see the genre of random song of choice
