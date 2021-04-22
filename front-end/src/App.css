@@ -39,8 +39,15 @@
 
 .main{
   max-width: 375px;
+  min-height: 90vh; /* will cover the 100% of viewport */
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 80px;
 }
 
 #marginer{
   margin-top: 110px;
+  /* margin-bottom: 50px;
+  min-height: 100vh; */
 }

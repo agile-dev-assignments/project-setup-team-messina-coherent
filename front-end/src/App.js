@@ -48,6 +48,31 @@ function App() {
             <ByWeather name="By Weather" />
           </Route>
 
+          <Route path='/party'>
+            <ByWeather url="party" name={"Party"} />
+          </Route>
+
+          <Route path='/mood-boosters'>
+            <ByWeather url={"mood-boosters"} name={"Mood Boosters"} />
+          </Route>
+
+          <Route path='/in-my-feels'>
+            <ByWeather url={"in-my-feels"} name={"In My Feels"} />
+          </Route>
+
+          <Route path='/romantic'>
+            <ByWeather url="romantic" name={"Romantic"} />
+          </Route>
+
+          <Route path='/getting-gains'>
+            <ByWeather url="getting-gains" name={"Getting Gains"} />
+          </Route>
+
+          <Route path='/plotting-my-revenge'>
+            <ByWeather url="plotting-my-revenge" name={"Plotting My Revenge"} />
+          </Route>
+
+
           <Route path='/'>
             <Home />
           </Route>
@@ -87,10 +112,6 @@ function App() {
 // function ByWeather() {
 //   return <h2 className='home'>By Weather</h2>;
 // }
-
-function ByWeatherPlay() {
-  return <h2 className='home'>By Weather playlist</h2>;
-}
 
 export default App;
 

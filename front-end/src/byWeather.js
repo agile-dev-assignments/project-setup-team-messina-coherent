@@ -37,7 +37,7 @@ function ByWeather(props) {
         .get(
       `http://localhost:3001/by-weather/${zip}`)
       .catch()
-      setData(apiResponse)
+      setData(apiResponse);
     }
     
     return (
@@ -46,8 +46,7 @@ function ByWeather(props) {
         Zipcode:
         <input type="text" onChange={handleZip} />
       </label>
-      <button type="button" onClick = {handleSubmit}> Submit</button>
-
+      <button type="button" onClick = {handleSubmit} > Submit</button>
     </form>);
 
     //async function fetchData() {
@@ -58,7 +57,7 @@ function ByWeather(props) {
       //.catch((err) => setErrors(err));
 
      
-  }
+};
   //console.log(data)
   
   //useEffect(() => {
@@ -89,6 +88,36 @@ function ByWeather(props) {
       //))}
 
     //</>
+function ByWeather(props) {
+  console.log(props)
+    const [data, setData] = useState('');
+
+    const [isLoading, setLoading] = useState(true);
+    const url = 'http://localhost:3001/' + props.url;
+    console.log(url)
+    useEffect(() => {
+      axios.get(url).then(response => {
+        setData(response.data);
+        setLoading(false);
+      });
+    }, []);
+
+    console.log(data)
+    if(isLoading == false){
+      data.map(function(item){
+        console.log(item.body.images[0].url)
+        })
+
+      }
+
+  return (
+    
+    <>
+    <h1 id="weather">{props.name}</h1>
+    {isLoading ? (<p style={{padding:'20px'}}>Loading your playlists...</p>) :
+     (data.map((item) => <Playlist id={item.body.id} name={item.body.name} tracks={item.sum} 
+     images={item.body.images[0].url}></Playlist>))})
+    </>
       
   //);
 //}
