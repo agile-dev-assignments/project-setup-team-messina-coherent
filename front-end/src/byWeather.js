@@ -4,6 +4,7 @@ import axios from 'axios';
 import Playlist from './playlist';
 
 
+
 // async function fetchData() {
 //     // axios is a 3rd-party module for fetching data from servers
 //     const result = await axios.get(
@@ -18,25 +19,52 @@ import Playlist from './playlist';
 //   }
 
 function ByWeather(props) {
-    const [data, setData] = useState({});
+    const [zip, setZip] = useState("");
+    const [hasError, setErrors] = useState(false);
+    const [data, setData]=useState({});
+    const url='http://localhost:3001/by-weather'
 
-  const [hasError, setErrors] = useState(false);
+    const handleZip=(e)=>{
+      e.preventDefault();
+      const value=e.target.value;
+      setZip(value);
+    }
 
-  async function fetchData() {
-    const res = await fetch('https://my.api.mockaroo.com/mock_api.json?key=5efe2840');
-    res
-      .json()
-      .then((res) =>  setData(res))
-      .catch((err) => setErrors(err));
+    const handleSubmit= async (e) => {
+      e.preventDefault();
+      const value=e.target.value;
+      const apiResponse = await axios
+        .get(
+      `http://localhost:3001/by-weather/${zip}`)
+      .catch()
+      setData(apiResponse)
+    }
+    
+    return (
+    <form >
+      <label>
+        Zipcode:
+        <input type="text" onChange={handleZip} />
+      </label>
+      <button type="button" onClick = {handleSubmit}> Submit</button>
+
+    </form>);
+
+    //async function fetchData() {
+      //const res = await fetch('https://my.api.mockaroo.com/mock_api.json?key=5efe2840');
+      //res
+      //.json()
+      //.then((res) =>  setData(res))
+      //.catch((err) => setErrors(err));
 
      
   }
-  console.log(data)
+  //console.log(data)
   
-  useEffect(() => {
-    fetchData();
+  //useEffect(() => {
+    //fetchData();
     
-  }, []);
+  //}, []);
 
 // useEffect(() => {
 //     // a nested function that fetches the data
@@ -51,18 +79,18 @@ function ByWeather(props) {
 //     // the blank array below causes this callback to be executed only once on component load
 //   }, []);
 
-  return (
+  //return (
     
-    <>
-    {console.log(data)}
-    <h1 id='weather'>{props.name} </h1>
-      {data && data.map((item) => (
-        <Playlist details={item}></Playlist>
-      ))}
+    //<>
+    //{console.log(data)}
+    //<h1 id='weather'>{props.name} </h1>
+     // {data && data.playlists.map((item) => (
+       // <Playlist details={item}></Playlist>
+      //))}
 
-    </>
+    //</>
       
-  );
-}
+  //);
+//}
 
 export default ByWeather;

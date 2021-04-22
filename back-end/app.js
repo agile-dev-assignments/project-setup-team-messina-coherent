@@ -194,6 +194,18 @@ async function playlistFinder(filter, offset) {
   // });
 }
 
+async function search(q){
+  try{ 
+    let playlists=await spotifyApi.search(q,['playlist'],{limit:5,offset:1});
+    console.log('playlists', playlists);
+    return playlists;
+  }catch (err) {
+    next(err);
+  }
+  
+}
+  
+
 async function playlistArray(filter, offset) {}
 
 // scopes = ['user-read-private', 'user-read-email'];
@@ -223,7 +235,7 @@ Components to do the login for the site thru Spotify
 
 // const client_id = '0aa3357a8ce94adf8571ed29f3d59e33'; // Your client id
 // const client_secret = 'c085945032cb470c97081d505ee53786'; // Your secret
-// const redirect_uri = 'http://localhost:3000/'; // Your redirect uri
+//const redirect_uri = 'http://localhost:3000/'; // Your redirect uri
 
 
 // const stateKey = 'spotify_auth_state';
@@ -241,6 +253,7 @@ Components to do the login for the site thru Spotify
 // route for HTTP GET requests to the root document
 app.get('/', (req, res) => {
   res.render('index');
+});
 
 // 
 
@@ -248,11 +261,9 @@ app.get('/', (req, res) => {
   
   
 //route for HTTP GET request to get user ID and username
-  async getUserID(AccessToken)
-  {
-    const headers = {
-        Authorization: 'Bearer ${myToken}'
-    };
+async function getUserID(AccessToken) {
+  const headers = {
+      Authorization: 'Bearer ${myToken}'};
   
   let userID = '';
   let username = '';
@@ -268,7 +279,7 @@ app.get('/', (req, res) => {
     username = jsonResponse.display_name;
   }
     return userID, username;
-  }
+}
 
 
 // route for HTTP GET to see the genre of random song of choice
@@ -323,20 +334,21 @@ app.get("/by-weather/:zipcode", async (req, res) => {
   // we use a Mock API here, but imagine we passed the animalId to a real API and received back data about that animal
   const apiResponse = await axios
     .get(
-      `${process.env.API_BASE_URL}?zip=${req.params.zipcode}&appid=${process.env.API_SECRET_KEY}`
+      `${process.env.API_BASE_URL}?zip=${req.params.zipcode}&units=imperial&appid=${process.env.API_SECRET_KEY}`
     )
     .catch(err => next(err)) // pass any errors to express
 
   // express places parameters into the req.params object
   const responseData = {
-    status: "wonderful",
-    message: `Imagine we got the data from the API for animal #${req.params.zipcode}`,
     zipcode: req.params.zipcode,
-    weather_data: apiResponse.data,
+    weather_data: apiResponse.data.weather[0].main,
+    temperature: apiResponse.data.main.temp,
   }
+  const search_term = await search(responseData.weather_data);
+  res.json(search_term)
 
   // send the data in the response
-  res.json(responseData)
+  //res.json(responseData)
 })
 
 app.get('/plotting-my-revenge', async (req, res) => {
