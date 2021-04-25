@@ -14,17 +14,41 @@ const UserSchema = mongoose.Schema({
 module.exports=mongoose.model('User', UserSchema);
 
 
-let urlm =`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.jubh3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+// let urlm =`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.jubh3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
+// mongoose.set('useNewUrlParser', true);
+// mongoose.set('useCreateIndex', true);
+// mongoose.set('useUnifiedTopology', true);
 
-mongoose.connect(urlm, (err, database) => {
-  if (err) {
-    return console.log(err);
-  } else {
-    console.log('Connected to database'); 
+// mongoose.connect(urlm, (err, database) => {
+//   if (err) {
+//     return console.log(err);
+//   } else {
+//     console.log('Connected to database'); 
     
-  }
-});
+//   }
+// });
+
+/*
+Stuff for adding playlist
+*/
+// db.Post.findByIdAndUpdate(req.params["id"], {
+//   "$push": {
+//      comments: req.body["comment"]
+//   }
+// }, {
+//   "new": true
+// },
+// (err, docs) => {
+//   if (err) {
+//      res.json({
+//         "error": "The comment was not successfully added."
+//      });
+//   } else {
+//      res.json({
+//         "message": "Change was successful",
+//         "docs": docs
+//      });
+//   }
+// }
+// );

@@ -3,9 +3,23 @@ const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
 
 
-//const User= require('./db');
+const User= require('./db');
 
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
+//Connecting to mongo
+
+
+let urlm =`mongodb+srv://${process.env.username}:${process.env.password}@cluster0.jubh3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+console.log(urlm);
+mongoose.connect(urlm, (err, database) => {
+  if (err) {
+    return console.log(err);
+  } else {
+    
+    console.log('Connected to database Yes'); 
+    
+  }
+});
 
 const axios = require('axios'); // middleware for making requests to APIs
 
@@ -55,7 +69,50 @@ app.get('/login', (req,res)=>{
   // console.log(html);
   // res.redirect(html+"&show_dialog=true");
 });
+// const token='';
 
+// const spotifyApi = new SpotifyWebApi();
+
+
+function getMyData(){
+  // spotifyApi.setAccessToken(token);
+    (async()=>{
+        const me = await spotifyApi.getMe();
+        console.log(me.body['display_name']);
+        const userID = me.body.id;
+        User.find({userid:userID}, function(err,result){
+              if (err){
+                console.log(err);
+              }else {
+          
+                //check if the result is empty or not 
+                console.log(result);
+                if (result.length ===0){
+          
+                  //create the new user 
+                  let newus = new User({username:me.body['display_name'],userid:userID,playlists:[]});
+          
+                  //After creating,save it 
+                  newus.save(function(err,doc){
+                    if (err){
+                      console.log(err);
+                    }else {console.log("Entered database")};
+                    
+                  });
+                }
+                else{
+                  console.log('User Already Exist');
+                  console.log(result);
+                }
+          
+          
+              }
+            })
+            
+    })().catch(e=>{
+        console.log(e);
+    });
+}
 app.get('/callback', async(req,res)=>{
   const error = req.query.error;
   const code = req.query.code;
@@ -73,6 +130,8 @@ app.get('/callback', async(req,res)=>{
 
       spotifyApi.setAccessToken(access_token);
       spotifyApi.setRefreshToken(refresh_token);
+
+      getMyData();
 
       console.log('access_token', access_token);
       console.log('refresh_token', refresh_token);
