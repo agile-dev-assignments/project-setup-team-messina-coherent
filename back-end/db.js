@@ -28,3 +28,27 @@ module.exports=mongoose.model('User', UserSchema);
     
 //   }
 // });
+
+/*
+Stuff for adding playlist
+*/
+// db.Post.findByIdAndUpdate(req.params["id"], {
+//   "$push": {
+//      comments: req.body["comment"]
+//   }
+// }, {
+//   "new": true
+// },
+// (err, docs) => {
+//   if (err) {
+//      res.json({
+//         "error": "The comment was not successfully added."
+//      });
+//   } else {
+//      res.json({
+//         "message": "Change was successful",
+//         "docs": docs
+//      });
+//   }
+// }
+// );
