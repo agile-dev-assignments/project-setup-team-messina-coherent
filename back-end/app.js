@@ -387,7 +387,7 @@ app.get('/', (req, res) => {
 //     userName = jsonResponse.display_name;
 //   }
 
-//   // Check if database already has this user
+// Check if database already has this user
 //   User.find({username:userName,userid:userID}, function(err,result){
 //     if (err){
 //       console.log(err);
