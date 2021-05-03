@@ -15,7 +15,35 @@ const morgan = require('morgan'); // middleware for nice logging of incoming HTT
 
 
 //Getting the express validator
+
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+app.post('/user', (req, res) => {
+  User.create({
+    username: req.body.username,
+  }).then(user => res.json(user));
+});
 const { body, validationResult } = require('express-validator');
+
+app.post(
+  '/user',
+  // username must be an email
+  body('username').isEmail(),
+  (req, res) => {
+    // Finds the validation errors in this request and wraps them in an object with handy functions
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    User.create({
+      username: req.body.username,
+      password: req.body.password,
+    }).then(user => res.json(user));
+  },
+);
 
 
 var cors = require('cors');
