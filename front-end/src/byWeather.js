@@ -2,6 +2,8 @@ import './byWeather.css';
 import React, { useState, } from 'react';
 import axios from 'axios';
 import Playlist from './playlist';
+import { useHistory } from "react-router-dom";
+
 
 
 
@@ -29,6 +31,8 @@ function ByWeather(props) {
       const value=e.target.value;
       setZip(value);
     }
+    
+    let history=useHistory();
 
     const handleSubmit= async (e) => {
       e.preventDefault();
@@ -38,6 +42,8 @@ function ByWeather(props) {
       `http://localhost:3001/by-weather/${zip}`)
       .catch()
       setData(apiResponse);
+      history.push(`by-weather/${zip}`);
+      
     }
     
     return (
