@@ -100,30 +100,8 @@ app.get('/callback', async(req,res)=>{
 // var credentials = {
 //   clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
 //   clientSecret: 'ef94a00d195c462ea765c26987930804',
-// };
 
-// var spotifyApi = new SpotifyWebApi(credentials);
 
-// spotifyApi.clientCredentialsGrant().then(
-//   function (data) {
-//     console.log('The access token expires in ' + data.body['expires_in']);
-//     console.log('The access token is ' + data.body['access_token']);
-
-//     // Save the access token so that it's used in future calls
-//     spotifyApi.setAccessToken(data.body['access_token']);
-//   },
-//   function (err) {
-//     console.log('Something went wrong when retrieving an access token', err);
-//   }
-// );
-
-// var spotifyApi = new SpotifyWebApi();
-
-/**
- * Get metadata of tracks, albums, artists, shows, and episodes
- */
-
-// Taste object from playlist
 async function getTaste(id) {
   try {
     if (id != undefined || id != null) {
@@ -288,97 +266,39 @@ async function playlistFinder(filter, offset) {
 async function search(q){
   try{ 
     let playlists=await spotifyApi.search(q,['playlist'],{limit:5,offset:1});
-    console.log('playlists', playlists);
-    return playlists;
+    //console.log(playlists);
+    var array=[]
+    for (item in playlists.body.playlists.items){
+      var tempJSON={}
+      //console.log(item)
+      playlistName = playlists.body.playlists.items[item].name;
+      //console.log(playlistName)
+      playlistID= playlists.body.playlists.items[item].id;
+      tempJSON["link"]=playlists.body.playlists.items[item].external_urls.spotify;
+      tempJSON["name"]=playlistName;
+      tempJSON["id"]=playlistID;
+      tempJSON["image"]=playlists.body.playlists.items[item].images[0].url;
+      array[item]=tempJSON
+
+    }
+    console.log(tempJSON)
+    return array;
   }catch (err) {
-    next(err);
+   console.log('Something went wrong',err);
   }
   
 }
   
 
 async function playlistArray(filter, offset) {}
-//async function playlistArray(filter, offset) {}
-
-// scopes = ['user-read-private', 'user-read-email'];
 
 
-/*
-Write a component to get a user's saved tracks
-*/
-// function getSavedTracks(){
-//   spotifyApi.getMySavedTracks({
-//     limit : 2,
-//     offset: 1
-//   })
-//   .then(function(data){
-//     data.map((node)=>{
-//       console.log(node.body);
-//     });
-//     console.log('Done!');
-//   }, function(err){
-//     console.log('Something went wrong!', err);
-//   });
-// }
 
-/*
-Components to do the login for the site thru Spotify 
-*/
-
-// const client_id = '0aa3357a8ce94adf8571ed29f3d59e33'; // Your client id
-// const client_secret = 'c085945032cb470c97081d505ee53786'; // Your secret
-//const redirect_uri = 'http://localhost:3000/'; // Your redirect uri
-
-
-// const stateKey = 'spotify_auth_state';
-
-// app.get('/login', function(req, res) {
-//   const scopes = 'user-read-private user-read-email';
-//   res.redirect('https://accounts.spotify.com/authorize' +
-//     '?client_id=' + client_id+
-//     '&response_type=code'  +
-//     '&show_dialog=true'+
-//     (scopes ? '&scope=' + encodeURIComponent(scopes) : '') +
-//     '&redirect_uri=' + encodeURIComponent(redirect_uri));
-//   });
-  
-// route for HTTP GET requests to the root document
 
 app.get('/', (req, res) => {
   res.render('index');
 });
 
-
-// app.get('/test', async (req,res) => {
-//     const myTaste = await getTaste('37i9dQZF1DX7qK8ma5wgG1');
-//     let i = 0
-//     while (i< 5) {
-//         const playlist = await playlistFinder('focus', i);
-//         //console.log('PLAYLIST' + playlist);
-//         if(Object.keys(playlist)[0] != null || Object.keys(playlist)[0] != undefined){
-//             if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
-//                 console.log('MATCH');
-//             }
-//         }
-        
-//         //   const newP = await spotifyApi.getPlaylist(playlist.id);
-//         //   newP['sum'] = playlist.sum;
-//         //   playlistArray.push(newP);
-//         //   //     //playlistArray.push((await spotifyApi.getPlaylist(Object.keys(playlist)['id'])).body);
-//         // }
-//         i++;
-//         //console.log(Object.keys(myTaste)[0]);
-//         //console.log("PLAYLIST" + Object.keys(playlist)[0]);
-//       }
-// });
-
-// 
-
-
-// scopes = ['user-read-private', 'user-read-email'];
-  
-  
-//route for HTTP GET request to get user ID and username
 async function getUserID(AccessToken) {
   const headers = {
       Authorization: 'Bearer ${myToken}'};
@@ -399,64 +319,6 @@ async function getUserID(AccessToken) {
     return userID, username;
 }
 
-//   async function getUserID(AccessToken)
-//   {
-//     const headers = {
-//         Authorization: 'Bearer ${myToken}'
-//     };
-  
-//   let userID = '';
-//   let userName = '';
-//   const response = await fetch(app.get('https://api.spotify.com/v1/me',
-//                                        {
-//                                        headers : headers
-//                                        }
-//                                        ));
-//   const jsonResponse = await response.json();
-//   if(jsonResponse)
-//   {
-//     userID = jsonResponse.id;
-//     userName = jsonResponse.display_name;
-//   }
-
-//   // Check if database already has this user
-//   User.find({username:userName,userid:userID}, function(err,result){
-//     if (err){
-//       console.log(err);
-//     }else {
-
-//       //check if the result is empty or not 
-//       if (result == " "){
-
-//         //create the new user 
-//         let newus = User({username:userName,userid:userID,playlists:[]});
-
-//         //After creating,save it 
-//         newus.save(function(err,doc){
-//           if (err){
-//             console.log(err);
-//           }else {console.log("Entered database")};
-          
-//         })
-//       }
-
-
-//     }
-//   })
-  
-//     return userID, userName;
-//   }
-
-
-
-// route for HTTP GET to see the genre of random song of choice
-// app.get('/genre-getter', async (req, res) => {
-//   //var result = await spotifyApi.getUserPlaylists();
-//   getTrackGenre('4DuUwzP4ALMqpquHU0ltAB', function (result) {
-//     console.log(result);
-//     res.send(result);
-//   });
-// });
 
 app.get('/my-taste', async (req, res) => {
   const myTaste = await getTaste('37i9dQZF1DXaXB8fQg7xif');
@@ -580,13 +442,18 @@ app.get("/by-weather/:zipcode", async (req, res) => {
     zipcode: req.params.zipcode,
     weather_data: apiResponse.data.weather[0].main,
     temperature: apiResponse.data.main.temp,
+    final: apiResponse.data.weather[0].main.concat(" weather")
   }
-  const search_term = await search(responseData.weather_data);
-  res.json(search_term)
+  const search_term = await search(responseData.final);
+  try{
+    res.send(search_term);
+  }
+  catch (err) {
+    console.log('error' + err);}
 
   // send the data in the response
   //res.json(responseData)
-})
+});
 
 app.get('/getting-gains', async (req, res) => {
   //var result = await spotifyApi.getUserPlaylists();
