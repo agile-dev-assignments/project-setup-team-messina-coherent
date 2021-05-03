@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 function ByZip() {
     const [zip, setZip] = useState([]);
-    const url = `http://localhost:3001/by-weather/${zip}`;
+    const url = 'http://localhost:3001/by-weather/10010';
     useEffect(() => {
       axios.get(url).then(response => {
         setZip(response.data);
