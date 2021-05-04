@@ -43,6 +43,7 @@ function ByWeather(props) {
       .catch()
       setData(apiResponse);
       history.push(`by-weather/${zip}`);
+      //history.push({pathname:"./by-weather/${zip}"})
       
     }
     

@@ -73,7 +73,7 @@ function App() {
             <ByWeather url="plotting-my-revenge" name={"Plotting My Revenge"} />
           </Route>
 
-          <Route path='/by-weather'>
+          <Route exact path='/by-weather/:zipcode'>
             <ByZip url="by-weather" name={"Playlists by Weather"} />
           </Route>
 

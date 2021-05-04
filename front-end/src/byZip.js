@@ -3,25 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { Playlist } from 'react-spotify-api'
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import {useParams} from "react-router-dom";
 
-function ByZip() {
+
+function ByZip(props) {
+    console.log("here")
+    const {zipcode}=useParams();
     const [zip, setZip] = useState([]);
-    const url = 'http://localhost:3001/by-weather/10010';
+    const url = `http://localhost:3001/by-weather/${zipcode}`;
+    console.log(zipcode)
     useEffect(() => {
       axios.get(url).then(response => {
         setZip(response.data);
+        console.log(props);
         //setLoading(false);
       });
     }, []);
-    console.log(zip);
-    const obj1=zip[0]
-    const obj2=zip[1]
-    const obj3=zip[2]
-    const obj4=zip[3]
-    const obj5=zip[4]
-
-   
-    
+    //console.log(zip);
 
       return (
         <div>
