@@ -16,8 +16,8 @@ const morgan = require('morgan'); // middleware for nice logging of incoming HTT
 
 //Getting the express validator
 
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const app = express();
 
 app.use(express.json());
 app.post('/user', (req, res) => {
@@ -76,8 +76,47 @@ var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','p
 var spotifyApi = new SpotifyWebApi({
   clientId: '0aa3357a8ce94adf8571ed29f3d59e33',
   clientSecret: 'c085945032cb470c97081d505ee53786',
-  redirectUri : 'http://localhost:3001/callback'
+  redirectUri : 'http://159.65.190.215:3001/callback'
 });
+function getMyData(){
+  // spotifyApi.setAccessToken(token);
+    (async()=>{
+        const me = await spotifyApi.getMe();
+        console.log(me.body['display_name']);
+        const userID = me.body.id;
+        User.find({userid:userID}, function(err,result){
+              if (err){
+                console.log(err);
+              }else {
+          
+                //check if the result is empty or not 
+                console.log(result);
+                if (result.length ===0){
+          
+                  //create the new user 
+                  let newus = new User({username:me.body['display_name'],userid:userID,playlists:[]});
+          
+                  //After creating,save it 
+                  newus.save(function(err,doc){
+                    if (err){
+                      console.log(err);
+                    }else {console.log("Entered database")};
+                    
+                  });
+                }
+                else{
+                  console.log('User Already Exist');
+                  console.log(result);
+                }
+          
+          
+              }
+            })
+            
+    })().catch(e=>{
+        console.log(e);
+    });
+}
 app.get('/login', (req,res)=>{
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
   // console.log(html);
@@ -105,10 +144,11 @@ app.get('/callback', async(req,res)=>{
       console.log('access_token', access_token);
       console.log('refresh_token', refresh_token);
 
+      getMyData();
       console.log('Successful!');
       
       // res.send('Success!');
-      res.redirect('http://localhost:3000/');
+      res.redirect('http://159.65.190.215:3000/login');
       setInterval(async ()=>{
         const data = await spotifyApi.refreshAccessToken();
         const access_token = data.body['access_token'];
@@ -374,25 +414,25 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-async function getUserID(AccessToken) {
-  const headers = {
-      Authorization: 'Bearer ${myToken}'};
+// async function getUserID(AccessToken) {
+//   const headers = {
+//       Authorization: 'Bearer ${myToken}'};
   
-  let userID = '';
-  let username = '';
-  const response = await fetch(app.get('https://api.spotify.com/v1/me',
-                                       {
-                                       headers : headers
-                                       }
-                                       ));
-  const jsonResponse = await response.json();
-  if(jsonResponse)
-  {
-    userID = jsonResponse.id;
-    username = jsonResponse.display_name;
-  }
-    return userID, username;
-}
+//   let userID = '';
+//   let username = '';
+//   const response = await fetch(app.get('https://api.spotify.com/v1/me',
+//                                        {
+//                                        headers : headers
+//                                        }
+//                                        ));
+//   const jsonResponse = await response.json();
+//   if(jsonResponse)
+//   {
+//     userID = jsonResponse.id;
+//     username = jsonResponse.display_name;
+//   }
+//     return userID, username;
+// }
 
 
 app.get('/my-taste', async (req, res) => {
