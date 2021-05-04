@@ -10,7 +10,7 @@ function ByZip(props) {
     console.log("here")
     const {zipcode}=useParams();
     const [zip, setZip] = useState([]);
-    const url = `http://localhost:3001/by-weather/${zipcode}`;
+    const url = `http://159.65.190.215:3000/by-weather/${zipcode}`;
     console.log(zipcode)
     useEffect(() => {
       axios.get(url).then(response => {
