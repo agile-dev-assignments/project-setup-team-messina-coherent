@@ -19,3 +19,13 @@
     height: 80px;
     width: 80px;
 }
+
+#nameNav{
+    width: 80px;
+    position: fixed;
+    font-size: 20px;
+    color: white;
+    right: 30px;
+    top: 40px;
+    margin:0;
+}

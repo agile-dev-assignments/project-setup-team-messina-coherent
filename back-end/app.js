@@ -73,11 +73,40 @@ var SpotifyWebApi = require('spotify-web-api-node');
 const bodyParser = require('body-parser');
 var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'];
 
+
+// var credentials = {
+//   clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
+//   clientSecret: 'ef94a00d195c462ea765c26987930804',
+// };
+
+// var spotifyApi = new SpotifyWebApi(credentials);
+
+// spotifyApi.clientCredentialsGrant().then(
+//   function (data) {
+//     console.log('The access token expires in ' + data.body['expires_in']);
+//     console.log('The access token is ' + data.body['access_token']);
+
+//     // Save the access token so that it's used in future calls
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//   },
+//   function (err) {
+//     console.log('Something went wrong when retrieving an access token', err);
+//   }
+// );
+
+
+
+
+
+
+var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'];
+
 var spotifyApi = new SpotifyWebApi({
   clientId: '0aa3357a8ce94adf8571ed29f3d59e33',
   clientSecret: 'c085945032cb470c97081d505ee53786',
   redirectUri : 'http://localhost:3001/callback'
 });
+
 function getMyData(){
   // spotifyApi.setAccessToken(token);
     (async()=>{
@@ -117,6 +146,8 @@ function getMyData(){
         console.log(e);
     });
 }
+
+
 app.get('/login', (req,res)=>{
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
   // console.log(html);
@@ -124,6 +155,7 @@ app.get('/login', (req,res)=>{
 });
 
 app.get('/callback', async(req,res)=>{
+
   const error = req.query.error;
   const code = req.query.code;
   const state = req.query.state;
@@ -162,9 +194,23 @@ app.get('/callback', async(req,res)=>{
       console.log('Error getting Tokens: ', error);
       res.send('Error getting tokens: '+ error);
     });
+  
     
 
 });
+
+app.get('/test', async (req,res) => {
+    try {
+        var result = await spotifyApi.getMe();
+        console.log(result.body);
+        res.status(200).send(result.body);
+      } catch (err) {
+        res.status(400).send(err)
+      }
+});
+
+
+
 // var credentials = {
 //   clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
 //   clientSecret: 'ef94a00d195c462ea765c26987930804',
@@ -666,5 +712,9 @@ app.get('/mood-boosters', async (req, res) => {
 app.listen(3001);
 
 // export the express app we created to make it available to other modules
-// module.exports = app
+// module.exports = {
+//     getTaste: getTaste,
+//     getPlaylistWithTracks: getPlaylistWithTracks,
+//     playlistFinder: playlistFinder
+// }
 
