@@ -24,7 +24,7 @@ function ByWeather(props) {
     const [zip, setZip] = useState("");
     const [hasError, setErrors] = useState(false);
     const [data, setData]=useState({});
-    const url='http://localhost:3001/by-weather'
+    const url='http://159.65.190.215:3000/by-weather'
 
     const handleZip=(e)=>{
       e.preventDefault();
@@ -39,7 +39,7 @@ function ByWeather(props) {
       const value=e.target.value;
       const apiResponse = await axios
         .get(
-      `http://localhost:3001/by-weather/${zip}`)
+      `http://159.65.190.215:3000/by-weather/${zip}`)
       .catch()
       setData(apiResponse);
       history.push(`by-weather/${zip}`);
