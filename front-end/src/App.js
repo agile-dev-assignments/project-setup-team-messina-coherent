@@ -10,8 +10,10 @@ import FAQ from './faq.js';
 import Login from './Login.js';
 import MyTaste from './myTaste.js';
 import ByWeather from './byWeather.js';
+import AboutMe from './aboutMe.js';
 import Playlist from './playlist.js';
 import ByZip from './byZip.js';
+
 
 function App() {
   return (
@@ -20,9 +22,6 @@ function App() {
         <NavBar />
         <div id="marginer">
         <Switch>
-          <Route path='/mood-boosters'>
-            <ByWeather name="Mood Boosters" />
-          </Route>
           <Route path='/about'>
             <About />
           </Route>
@@ -44,7 +43,11 @@ function App() {
           <Route path='/myTaste'>
             <MyTaste />
           </Route>
-        
+
+          <Route path='/aboutMe'>
+            <AboutMe />
+          </Route>
+
           <Route path='/byWeather'>
             <ByWeather name="By Weather" />
           </Route>
