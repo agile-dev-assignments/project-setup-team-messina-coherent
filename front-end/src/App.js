@@ -11,6 +11,7 @@ import Login from './Login.js';
 import MyTaste from './myTaste.js';
 import ByWeather from './byWeather.js';
 import Playlist from './playlist.js';
+import ByZip from './byZip.js';
 
 function App() {
   return (
@@ -43,7 +44,7 @@ function App() {
           <Route path='/myTaste'>
             <MyTaste />
           </Route>
-
+        
           <Route path='/byWeather'>
             <ByWeather name="By Weather" />
           </Route>
@@ -70,6 +71,10 @@ function App() {
 
           <Route path='/plotting-my-revenge'>
             <ByWeather url="plotting-my-revenge" name={"Plotting My Revenge"} />
+          </Route>
+
+          <Route exact path='/by-weather/:zipcode'>
+            <ByZip url="by-weather" name={"Playlists by Weather"} />
           </Route>
 
 
