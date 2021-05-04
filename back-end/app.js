@@ -15,7 +15,35 @@ const morgan = require('morgan'); // middleware for nice logging of incoming HTT
 
 
 //Getting the express validator
+
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+app.post('/user', (req, res) => {
+  User.create({
+    username: req.body.username,
+  }).then(user => res.json(user));
+});
 const { body, validationResult } = require('express-validator');
+
+app.post(
+  '/user',
+  // username must be an email
+  body('username').isEmail(),
+  (req, res) => {
+    // Finds the validation errors in this request and wraps them in an object with handy functions
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    User.create({
+      username: req.body.username,
+      password: req.body.password,
+    }).then(user => res.json(user));
+  },
+);
 
 
 var cors = require('cors');
@@ -294,6 +322,53 @@ async function playlistArray(filter, offset) {}
 
 
 
+//   async function getUserID(AccessToken)
+//   {
+//     const headers = {
+//         Authorization: 'Bearer ${myToken}'
+//     };
+  
+//   let userID = '';
+//   let userName = '';
+//   const response = await fetch(app.get('https://api.spotify.com/v1/me',
+//                                        {
+//                                        headers : headers
+//                                        }
+//                                        ));
+//   const jsonResponse = await response.json();
+//   if(jsonResponse)
+//   {
+//     userID = jsonResponse.id;
+//     userName = jsonResponse.display_name;
+//   }
+
+// Check if database already has this user
+//   User.find({username:userName,userid:userID}, function(err,result){
+//     if (err){
+//       console.log(err);
+//     }else {
+
+//       //check if the result is empty or not 
+//       if (result == " "){
+
+//         //create the new user 
+//         let newus = User({username:userName,userid:userID,playlists:[]});
+
+//         //After creating,save it 
+//         newus.save(function(err,doc){
+//           if (err){
+//             console.log(err);
+//           }else {console.log("Entered database")};
+          
+//         })
+//       }
+
+
+//     }
+//   })
+  
+//     return userID, userName;
+//   }
 
 app.get('/', (req, res) => {
   res.render('index');
