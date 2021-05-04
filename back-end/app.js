@@ -3,7 +3,7 @@ const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
 
 
-//const User= require('./db');
+const User= require('./db');
 
 //const mongoose = require('mongoose');
 
@@ -76,7 +76,7 @@ var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','p
 var spotifyApi = new SpotifyWebApi({
   clientId: '0aa3357a8ce94adf8571ed29f3d59e33',
   clientSecret: 'c085945032cb470c97081d505ee53786',
-  redirectUri : 'http://159.65.190.215:3001/callback'
+  redirectUri : 'http://localhost:3001/callback'
 });
 function getMyData(){
   // spotifyApi.setAccessToken(token);
@@ -148,7 +148,7 @@ app.get('/callback', async(req,res)=>{
       console.log('Successful!');
       
       // res.send('Success!');
-      res.redirect('http://159.65.190.215:3000/login');
+      res.redirect('http://localhost:3000');
       setInterval(async ()=>{
         const data = await spotifyApi.refreshAccessToken();
         const access_token = data.body['access_token'];
