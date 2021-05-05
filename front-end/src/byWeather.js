@@ -1,5 +1,5 @@
 import './byWeather.css';
-import React, { useState, } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import Playlist from './playlist';
 import { useHistory } from "react-router-dom";
@@ -7,24 +7,11 @@ import { useHistory } from "react-router-dom";
 
 
 
-// async function fetchData() {
-//     // axios is a 3rd-party module for fetching data from servers
-//     const result = await axios.get(
-//       // retrieving some mock data about animals for sale
-//       "https://my.api.mockaroo.com/mock_api.json?key=5efe2840"
-//     );
-//     // set the state variable
-//     // this will cause a re-render of this component
-//     console.log("," + result.data);
-//     // setData(result.data);
-//     return result.data;
-//   }
-
 function ByWeather(props) {
     const [zip, setZip] = useState("");
     const [hasError, setErrors] = useState(false);
     const [data, setData]=useState({});
-    const url='http://159.65.190.215:3000/by-weather'
+    const url='http://localhost:3001/by-weather'
 
     const handleZip=(e)=>{
       e.preventDefault();
@@ -39,7 +26,7 @@ function ByWeather(props) {
       const value=e.target.value;
       const apiResponse = await axios
         .get(
-      `http://159.65.190.215:3000/by-weather/${zip}`)
+      `http://localhost:3001/by-weather/${zip}`)
       .catch()
       setData(apiResponse);
       history.push(`by-weather/${zip}`);

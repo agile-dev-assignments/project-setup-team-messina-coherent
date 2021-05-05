@@ -71,7 +71,7 @@ app.use(express.static(__dirname + '/public')).use(cors()).use(cookieParser());
 
 var SpotifyWebApi = require('spotify-web-api-node');
 const bodyParser = require('body-parser');
-var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'];
+var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private', 'user-library-read'];
 
 
 // var credentials = {
@@ -99,11 +99,11 @@ var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','p
 
 
 
-var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'];
+//var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'];
 
 var spotifyApi = new SpotifyWebApi({
-  clientId: '0aa3357a8ce94adf8571ed29f3d59e33',
-  clientSecret: 'c085945032cb470c97081d505ee53786',
+  clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
+  clientSecret: 'ef94a00d195c462ea765c26987930804',
   redirectUri : 'http://localhost:3001/callback'
 });
 
@@ -392,6 +392,7 @@ async function search(q){
       tempJSON["name"]=playlistName;
       tempJSON["id"]=playlistID;
       tempJSON["image"]=playlists.body.playlists.items[item].images[0].url;
+      tempJSON["tracks"] = playlists.body.playlists.items[item].tracks.total;
       array[item]=tempJSON
 
     }
@@ -404,8 +405,86 @@ async function search(q){
 }
   
 
-async function playlistArray(filter, offset) {}
+async function userTaste(tracksIds){
+const tracksInfo = [];
+        for (let i = 1; i < tracksIds.length; i++) {
+          if (tracksIds.length >= 50 && i % 50 == 0) {
+            let info = await spotifyApi.getTracks(tracksIds.slice(i - 50, i));
+            //tracksInfo.push(info.body)
+            info.body.tracks.forEach((track) => tracksInfo.push(track.artists[0].id));
+            //console.log(info.body)
+          } else if (tracksIds.length >= 50 && i >= 50 && tracksIds.length - i < 50) {
+            let info = await spotifyApi.getTracks(tracksIds.slice(i - 1, tracksIds.length));
+            info.body.tracks.forEach((track) => tracksInfo.push(track.artists[0].id));
+            break;
+          }
+        }
 
+        //console.log(tracksInfo);
+
+        let genres = [];
+
+        for (let i = 1; i < tracksInfo.length; i++) {
+          if (tracksInfo.length >= 50 && i % 50 == 0) {
+            let info = await spotifyApi.getArtists(tracksInfo.slice(i - 50, i));
+            //tracksInfo.push(info.body)
+            info.body.artists.forEach((track) => genres.push(track.genres.pop()));
+            //console.log(info.body.artists)
+          } else if (tracksIds.length >= 50 && i >= 50 && tracksIds.length - i < 50) {
+            let info = await spotifyApi.getArtists(tracksInfo.slice(i - 1, tracksInfo.length));
+            info.body.artists.forEach((track) => genres.push(track.genres.pop()));
+            break;
+          }
+        }
+
+        //console.log(genres.length);
+
+        let counts = {};
+
+        for (var i = 0; i < genres.length; i++) {
+          var num = genres[i];
+          counts[num] = counts[num] ? counts[num] + 1 : 1;
+        }
+
+        var sum = 0;
+        for (var el in counts) {
+          if (counts.hasOwnProperty(el)) {
+            sum += parseFloat(counts[el]);
+          }
+        }
+
+        //console.log('sum: ' + sum);
+
+        const sortable = Object.entries(counts)
+          .sort(([, a], [, b]) => b - a)
+          .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+
+        if (sortable.undefined) {
+          delete sortable.undefined;
+        }
+
+        for (const [key, value] of Object.entries(sortable)) {
+          let words = key.split(' ');
+          let upper;
+          upper = words
+            .map((word) => {
+              if (word == 'uk') {
+                return word.toUpperCase();
+              }
+              return word[0].toUpperCase() + word.substring(1);
+            })
+            .join(' ');
+
+          delete sortable[key];
+          sortable[upper] = value;
+        }
+        sortable['sum'] = sum;
+        console.log(sortable);
+
+        if (sortable != null || sortable != undefined) {
+          return sortable;
+        }
+      }
 
 
 //   async function getUserID(AccessToken)
@@ -479,11 +558,43 @@ app.get('/', (req, res) => {
 //   }
 //     return userID, username;
 // }
-
+app.get('/track', async (req, res) => {
+  var tracks = []
+  var offset = 0
+  let myTaste = await spotifyApi.getMySavedTracks({offset: offset})
+  while(myTaste.body.next){
+    myTaste = await spotifyApi.getMySavedTracks({offset: offset})
+    tracks = tracks.concat(myTaste.body.items)
+    //console.log(tracks)
+    offset += 20
+  }
+  console.log(tracks.length)
+  tracks = tracks.map((item) => item.track.id)
+  console.log(tracks)
+  var newTracks = await userTaste(tracks)
+  console.log(newTracks)
+  res.send(myTaste);
+});
 
 app.get('/my-taste', async (req, res) => {
-  const myTaste = await getTaste('37i9dQZF1DXaXB8fQg7xif');
-  res.send(myTaste);
+  var tracks = []
+  var offset = 0
+  let myTaste = await spotifyApi.getMySavedTracks({offset: offset})
+  while(myTaste.body.next){
+    myTaste = await spotifyApi.getMySavedTracks({offset: offset})
+    tracks = tracks.concat(myTaste.body.items)
+    //console.log(tracks)
+    offset += 20
+  }
+  console.log(tracks.length)
+  tracks = tracks.map((item) => item.track.id)
+  console.log(tracks)
+  var newTracks = await userTaste(tracks)
+  console.log(newTracks)
+  res.send(newTracks);
+
+  //const myTaste = await getTaste('37i9dQZF1DXaXB8fQg7xif');
+  //res.send(myTaste);
 });
 
 app.get('/party', async (req, res) => {
@@ -526,7 +637,7 @@ app.get('/in-my-feels', async (req, res) => {
     }
 
     let i = 0;
-    while (playlistArray.length < 4) {
+    while (playlistArray.length < 5) {
       const playlist = await playlistFinder('hurt', i);
       console.log('PLAYLIST' + playlist);
       if (Object.keys(myTaste)[0] === Object.keys(playlist)[0] || Object.keys(myTaste)[0] === Object.keys(playlist)[1]
@@ -552,7 +663,7 @@ app.get('/on-my-grind', async (req, res) => {
   //var result = await spotifyApi.getUserPlaylists();
   try {
     let playlistArray = [];
-    const myTaste = await getTaste('37i9dQZF1DXaXB8fQg7xif');
+    const myTaste = await getTaste('5XUTMgsNpAFR4y2DUm12aC');
     // const playlist = await playlistFinder('party',0);
     if (Object.keys(myTaste)[0] != undefined) {
       console.log(Object.keys(myTaste)[0]);
@@ -620,17 +731,17 @@ app.get('/getting-gains', async (req, res) => {
   //var result = await spotifyApi.getUserPlaylists();
   try {
     let playlistArray = [];
-    const myTaste = await getTaste('37i9dQZF1DXaXB8fQg7xif');
+    const myTaste = await getTaste('5XoGCyXu8TWiHZ701KkhZa');
     // const playlist = await playlistFinder('party',0);
     if (Object.keys(myTaste)[0] != undefined) {
       console.log(Object.keys(myTaste)[0]);
     }
 
     let i = 0;
-    while (playlistArray.length < 6) {
+    while (playlistArray.length < 5) {
       const playlist = await playlistFinder('workout', i);
       console.log('PLAYLIST' + playlist);
-      if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
+      if (Object.keys(myTaste)[0] === Object.keys(playlist)[0] || Object.keys(myTaste)[0] === Object.keys(playlist)[1]) {
         console.log('MATCH');
         const newP = await spotifyApi.getPlaylist(playlist.id);
         newP['sum'] = playlist.sum;
@@ -651,14 +762,14 @@ app.get('/romantic', async (req, res) => {
   //var result = await spotifyApi.getUserPlaylists();
   try {
     let playlistArray = [];
-    const myTaste = await getTaste('37i9dQZF1DXaXB8fQg7xif');
+    const myTaste = await getTaste('37i9dQZF1DX50QitC6Oqtn');
     // const playlist = await playlistFinder('party',0);
     if (Object.keys(myTaste)[0] != undefined) {
       console.log(Object.keys(myTaste)[0]);
     }
 
     let i = 0;
-    while (playlistArray.length < 6) {
+    while (playlistArray.length < 5) {
       const playlist = await playlistFinder('love', i);
       console.log('PLAYLIST' + playlist);
       if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {
@@ -689,7 +800,7 @@ app.get('/mood-boosters', async (req, res) => {
     }
 
     let i = 0;
-    while (playlistArray.length < 4) {
+    while (playlistArray.length < 5) {
       const playlist = await playlistFinder('happy', i);
       console.log('PLAYLIST' + playlist);
       if (Object.keys(myTaste)[0] === Object.keys(playlist)[0]) {

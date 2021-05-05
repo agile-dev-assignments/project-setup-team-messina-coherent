@@ -13,6 +13,7 @@ import ByWeather from './byWeather.js';
 import AboutMe from './aboutMe.js';
 import Playlist from './playlist.js';
 import ByZip from './byZip.js';
+import ByMood from './byMood.js';
 
 
 function App() {
@@ -53,27 +54,27 @@ function App() {
           </Route>
 
           <Route path='/party'>
-            <ByWeather url="party" name={"Party"} />
+            <ByMood url="party" name={"Party"} />
           </Route>
 
           <Route path='/mood-boosters'>
-            <ByWeather url={"mood-boosters"} name={"Mood Boosters"} />
+            <ByMood url={"mood-boosters"} name={"Mood Boosters"} />
           </Route>
 
           <Route path='/in-my-feels'>
-            <ByWeather url={"in-my-feels"} name={"In My Feels"} />
+            <ByMood url={"in-my-feels"} name={"In My Feels"} />
           </Route>
 
           <Route path='/romantic'>
-            <ByWeather url="romantic" name={"Romantic"} />
+            <ByMood url="romantic" name={"Romantic"} />
           </Route>
 
           <Route path='/getting-gains'>
-            <ByWeather url="getting-gains" name={"Getting Gains"} />
+            <ByMood url="getting-gains" name={"Getting Gains"} />
           </Route>
 
-          <Route path='/plotting-my-revenge'>
-            <ByWeather url="plotting-my-revenge" name={"Plotting My Revenge"} />
+          <Route path='/on-my-grind'>
+            <ByMood url="on-my-grind" name={"On My Grind"} />
           </Route>
 
           <Route exact path='/by-weather/:zipcode'>
