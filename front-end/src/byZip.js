@@ -3,7 +3,6 @@ import './byWeather.css';
 import React, { useEffect, useState } from 'react';
 import Playlist from './playlist.js'
 import axios from 'axios';
-import { withRouter } from 'react-router-dom';
 import {useParams} from "react-router-dom";
 
 

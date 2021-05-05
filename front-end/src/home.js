@@ -6,23 +6,21 @@ function Home() {
   const [logged, setLogin] = useState(false);
   const [data, setData] = useState('');
 
-  const [isLoading, setLoading] = useState(false);
   const url = 'http://localhost:3001/test';
   console.log(url);
   useEffect(() => {
     axios.get(url).then((response) => {
       console.log(Object.keys(response.data).length);
       setData(response.data);
-      setLoading(false);
       setLogin(true);
     });
   }, []);
 
-  if ( logged == true) {
+  if ( logged === true) {
     return (
       <div id='home'>
         <h2>What is Your Music Taste?</h2>
-        <img src='/home.jpg' />
+        <img src='/home.jpg' alt="Image for homepage"/>
         <p>Want to know more about your Spotify library?</p>
         <p>
           If your answer if yes, you've come to the right place! If not, still give it shot! Our mission is to provide
