@@ -123,7 +123,7 @@ function getMyData(){
                 if (result.length ===0){
           
                   //create the new user 
-                  let newus = new User({username:me.body['display_name'],userid:userID,playlists:[]});
+                  let newus = new User({username:me.body['display_name'],userid:userID});
           
                   //After creating,save it 
                   newus.save(function(err,doc){
