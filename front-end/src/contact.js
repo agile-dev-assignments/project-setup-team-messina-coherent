@@ -19,7 +19,7 @@ function Contact() {
         <h4 class='h_cu'>Chat and Email</h4>
         <p class='p1_cu'>
           Chat with us through our contact form. <br></br>
-          If no one’s available, we’ll get back to you on email.
+          If no one’s available, we’ll get back to you on email. You can also e-mail at either ah3288@nyu.edu, 
         </p>
         <div class='contact' style={{ textAlign: 'left', display: 'inline-block' }}>
         <form>
