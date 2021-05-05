@@ -11,7 +11,6 @@ import Login from './Login.js';
 import MyTaste from './myTaste.js';
 import ByWeather from './byWeather.js';
 import AboutMe from './aboutMe.js';
-import Playlist from './playlist.js';
 import ByZip from './byZip.js';
 import ByMood from './byMood.js';
 
