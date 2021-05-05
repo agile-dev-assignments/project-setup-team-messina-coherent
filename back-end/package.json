@@ -4,7 +4,7 @@
   "description": "The back-end of your project will live in this directory.",
   "main": "app.js",
   "scripts": {
-    "test":"mocha"
+    "test": "node_modules/.bin/mocha -w"
   },
   "author": "",
   "license": "ISC",
@@ -19,12 +19,12 @@
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.5",
     "morgan": "^1.10.0",
-    "request": "^2.88.2",
     "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
     "chai": "^4.3.4",
     "mocha": "^8.3.2",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "request": "^2.88.2"
   }
 }

@@ -1,11 +1,32 @@
-import React, { useState } from 'react';
 import { slide as Menu } from 'react-burger-menu';
 import './sidebar.css';
 import './Accordion.css';
 import Accordions from './Accordions.js';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function Sidebar() {
-  const [logged, setLogin] = useState(true);
+  const [logged, setLogin] = useState(false);
+
+
+  const [data, setData] = useState('');
+
+  const [isLoading, setLoading] = useState(true);
+  const url = 'http://localhost:3001/test';
+  console.log(url)
+  useEffect(() => {
+    axios.get(url).then(response => {
+      console.log(Object.keys(response.data).length)
+        setData(response.data);
+        setLoading(false);
+        setLogin(true)
+    });
+  }, []);
+
+
+
+
+
   const accordionData2 = [
     {
       question: 'By Mood',
@@ -55,7 +76,7 @@ function Sidebar() {
     },
   ];
 
-  if ({ logged }) {
+  if ( logged == true ) {
     return (
       <Menu>
         <a className='menu-item' href='/'>
@@ -65,8 +86,8 @@ function Sidebar() {
           My Taste
         </a>
         <Accordions data={accordionData} duration={400} closeOthers opened={1} />
-        <a id='login' className='menu-item' href='/login'>
-          Login
+        <a id='login' className='menu-item' href='/aboutMe'>
+          About Me
         </a>
       </Menu>
     );
@@ -76,8 +97,8 @@ function Sidebar() {
       <a className='menu-item' href='/'>
         Home
       </a>
-      <a className='menu-item' href='/logout'>
-        Logout
+      <a id='login' className='menu-item' href='/login'>
+          Login
       </a>
     </Menu>
   );

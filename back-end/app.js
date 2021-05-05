@@ -3,7 +3,7 @@ const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
 
 
-//const User= require('./db');
+const User= require('./db');
 
 //const mongoose = require('mongoose');
 
@@ -16,8 +16,8 @@ const morgan = require('morgan'); // middleware for nice logging of incoming HTT
 
 //Getting the express validator
 
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const app = express();
 
 app.use(express.json());
 app.post('/user', (req, res) => {
@@ -73,11 +73,81 @@ var SpotifyWebApi = require('spotify-web-api-node');
 const bodyParser = require('body-parser');
 var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'];
 
+
+// var credentials = {
+//   clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
+//   clientSecret: 'ef94a00d195c462ea765c26987930804',
+// };
+
+// var spotifyApi = new SpotifyWebApi(credentials);
+
+// spotifyApi.clientCredentialsGrant().then(
+//   function (data) {
+//     console.log('The access token expires in ' + data.body['expires_in']);
+//     console.log('The access token is ' + data.body['access_token']);
+
+//     // Save the access token so that it's used in future calls
+//     spotifyApi.setAccessToken(data.body['access_token']);
+//   },
+//   function (err) {
+//     console.log('Something went wrong when retrieving an access token', err);
+//   }
+// );
+
+
+
+
+
+
+var scopes = ['user-read-private', 'user-read-email','playlist-modify-public','playlist-modify-private'];
+
 var spotifyApi = new SpotifyWebApi({
   clientId: '0aa3357a8ce94adf8571ed29f3d59e33',
   clientSecret: 'c085945032cb470c97081d505ee53786',
   redirectUri : 'http://localhost:3001/callback'
 });
+
+function getMyData(){
+  // spotifyApi.setAccessToken(token);
+    (async()=>{
+        const me = await spotifyApi.getMe();
+        console.log(me.body['display_name']);
+        const userID = me.body.id;
+        User.find({userid:userID}, function(err,result){
+              if (err){
+                console.log(err);
+              }else {
+          
+                //check if the result is empty or not 
+                console.log(result);
+                if (result.length ===0){
+          
+                  //create the new user 
+                  let newus = new User({username:me.body['display_name'],userid:userID,playlists:[]});
+          
+                  //After creating,save it 
+                  newus.save(function(err,doc){
+                    if (err){
+                      console.log(err);
+                    }else {console.log("Entered database")};
+                    
+                  });
+                }
+                else{
+                  console.log('User Already Exist');
+                  console.log(result);
+                }
+          
+          
+              }
+            })
+            
+    })().catch(e=>{
+        console.log(e);
+    });
+}
+
+
 app.get('/login', (req,res)=>{
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
   // console.log(html);
@@ -85,6 +155,7 @@ app.get('/login', (req,res)=>{
 });
 
 app.get('/callback', async(req,res)=>{
+
   const error = req.query.error;
   const code = req.query.code;
   const state = req.query.state;
@@ -105,10 +176,11 @@ app.get('/callback', async(req,res)=>{
       console.log('access_token', access_token);
       console.log('refresh_token', refresh_token);
 
+      getMyData();
       console.log('Successful!');
       
       // res.send('Success!');
-      res.redirect('http://localhost:3000/');
+      res.redirect('http://localhost:3000');
       setInterval(async ()=>{
         const data = await spotifyApi.refreshAccessToken();
         const access_token = data.body['access_token'];
@@ -122,9 +194,23 @@ app.get('/callback', async(req,res)=>{
       console.log('Error getting Tokens: ', error);
       res.send('Error getting tokens: '+ error);
     });
+  
     
 
 });
+
+app.get('/test', async (req,res) => {
+    try {
+        var result = await spotifyApi.getMe();
+        console.log(result.body);
+        res.status(200).send(result.body);
+      } catch (err) {
+        res.status(400).send(err)
+      }
+});
+
+
+
 // var credentials = {
 //   clientId: '5d968e8774bb44b38bb0a26b8ec1104a',
 //   clientSecret: 'ef94a00d195c462ea765c26987930804',
@@ -374,25 +460,25 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-async function getUserID(AccessToken) {
-  const headers = {
-      Authorization: 'Bearer ${myToken}'};
+// async function getUserID(AccessToken) {
+//   const headers = {
+//       Authorization: 'Bearer ${myToken}'};
   
-  let userID = '';
-  let username = '';
-  const response = await fetch(app.get('https://api.spotify.com/v1/me',
-                                       {
-                                       headers : headers
-                                       }
-                                       ));
-  const jsonResponse = await response.json();
-  if(jsonResponse)
-  {
-    userID = jsonResponse.id;
-    username = jsonResponse.display_name;
-  }
-    return userID, username;
-}
+//   let userID = '';
+//   let username = '';
+//   const response = await fetch(app.get('https://api.spotify.com/v1/me',
+//                                        {
+//                                        headers : headers
+//                                        }
+//                                        ));
+//   const jsonResponse = await response.json();
+//   if(jsonResponse)
+//   {
+//     userID = jsonResponse.id;
+//     username = jsonResponse.display_name;
+//   }
+//     return userID, username;
+// }
 
 
 app.get('/my-taste', async (req, res) => {
@@ -626,5 +712,9 @@ app.get('/mood-boosters', async (req, res) => {
 app.listen(3001);
 
 // export the express app we created to make it available to other modules
-// module.exports = app
+// module.exports = {
+//     getTaste: getTaste,
+//     getPlaylistWithTracks: getPlaylistWithTracks,
+//     playlistFinder: playlistFinder
+// }
 
