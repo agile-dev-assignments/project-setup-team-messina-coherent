@@ -4,7 +4,7 @@
   "description": "The back-end of your project will live in this directory.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test":"mocha"
   },
   "author": "",
   "license": "ISC",
@@ -15,14 +15,16 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongodb": "^3.6.6",
     "express-validator": "^6.10.0",
+    "mongodb": "^3.6.6",
     "mongoose": "^5.12.5",
     "morgan": "^1.10.0",
     "request": "^2.88.2",
     "spotify-web-api-node": "^5.0.2"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
     "nodemon": "^2.0.7"
   }
 }
