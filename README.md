@@ -28,6 +28,9 @@ The project was built on the idea of giving the user a more personalized experie
 
 ### Building and Testing
 
+**Sprint 4 Update:**
+1. You can view our app on Digital Ocean using this [link:](http://159.65.190.215:3000/) 
+
 **Sprint 3 Update:**
 1. Clone our repository, open up two terminal windows and cd into the back-end and front-end folders
 2. On each terminal write npm install, which installs all dependencies
