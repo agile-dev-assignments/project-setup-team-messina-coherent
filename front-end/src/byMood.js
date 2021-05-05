@@ -18,12 +18,7 @@ function ByMood(props) {
       }, []);
   
       console.log(data)
-      if(isLoading == false){
-        data.map(function(item){
-          console.log(item.body.images[0].url)
-          })
-  
-        }
+
   
     return (
       
