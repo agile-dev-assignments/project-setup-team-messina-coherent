@@ -8,7 +8,10 @@ const UserSchema = mongoose.Schema({
   username: String,
   userid: String,
   //Are arrays a valid type?
-  playlists: Array
+   
+  //The playlists aren't needed inside the schema of the documents since we really only need the 
+  //username and userid
+  //playlists: Array
 });
 
 module.exports=mongoose.model('User', UserSchema);
