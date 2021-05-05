@@ -1,3 +1,4 @@
+npm install --save express-validator
 const express = require('express'); // CommonJS import style!
 const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
@@ -30,7 +31,7 @@ const { body, validationResult } = require('express-validator');
 app.post(
   '/user',
   // username must be longer than 0 characters
-  body('username').isLength(str [1, 10000000]),
+  body('username').isLength({ min: 1 }),
   (req, res) => {
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req);
