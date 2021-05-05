@@ -1,14 +1,12 @@
 import './myTaste.css';
 import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 
 
 function MyTaste() {
   const [taste, setTaste] = useState('');
-  const [isLoading, setLoading] = useState(true);
   const url = 'http://localhost:3001/my-taste';
   useEffect(() => {
     axios.get(url).then(response => {
@@ -17,7 +15,7 @@ function MyTaste() {
     });
   }, []);
 
-  let other = taste.sum - (Object.values(taste)[0] + Object.values(taste)[1] + Object.values(taste)[2] + Object.values(taste)[3] + Object.values(taste)[4])
+  let other = (((taste.sum - (Object.values(taste)[0] + Object.values(taste)[1] + Object.values(taste)[2] + Object.values(taste)[3] + Object.values(taste)[4]))/taste.sum) * 100).toFixed(2)
   const state = {
     labels: [Object.keys(taste)[0],Object.keys(taste)[1],Object.keys(taste)[2],Object.keys(taste)[3],Object.keys(taste)[4], "Other"],
     datasets: [
@@ -25,9 +23,9 @@ function MyTaste() {
         label: 'Rainfall',
         backgroundColor: ['#B21F00', '#C9DE00', '#2FDE00', '#00A6B4', '#6800B4', '#D8D8D8'],
         hoverBackgroundColor: ['#501800', '#4B5000', '#175000', '#003350', '#35014F', '#888888'],
-        data: [(Object.values(taste)[0]/taste.sum) * 100, (Object.values(taste)[1]/taste.sum) * 100
-        , (Object.values(taste)[2]/taste.sum) * 100, (Object.values(taste)[3]/taste.sum) * 100
-        , (Object.values(taste)[4]/taste.sum) * 100, other],
+        data: [((Object.values(taste)[0]/taste.sum) * 100).toFixed(2), ((Object.values(taste)[1]/taste.sum) * 100).toFixed(2)
+        , ((Object.values(taste)[2]/taste.sum) * 100).toFixed(2), ((Object.values(taste)[3]/taste.sum) * 100).toFixed(2)
+        , ((Object.values(taste)[4]/taste.sum) * 100).toFixed(2), other],
       },
     ],
   };
@@ -62,15 +60,16 @@ function MyTaste() {
 
         <p>Your Library Breakdown by Top 5 Genres:</p>
 
-        <p>{Object.keys(taste)[0]} : {(Object.values(taste)[0]/taste.sum) * 100}%</p>
+        <p>{Object.keys(taste)[0]} : {((Object.values(taste)[0]/taste.sum) * 100).toFixed(2)}%</p>
 
-        <p>{Object.keys(taste)[1]} : {(Object.values(taste)[1]/taste.sum) * 100}%</p>
+        <p>{Object.keys(taste)[1]} : {((Object.values(taste)[1]/taste.sum) * 100).toFixed(2)}%</p>
 
-        <p>{Object.keys(taste)[2]} : {(Object.values(taste)[2]/taste.sum) * 100}%</p>
+        <p>{Object.keys(taste)[2]} : {((Object.values(taste)[2]/taste.sum) * 100).toFixed(2)}%</p>
 
-        <p>{Object.keys(taste)[3]} : {(Object.values(taste)[3]/taste.sum) * 100}%</p>
+        <p>{Object.keys(taste)[3]} : {((Object.values(taste)[3]/taste.sum) * 100).toFixed(2)}%</p>
 
-        <p>{Object.keys(taste)[4]} : {(Object.values(taste)[4]/taste.sum) * 100}%</p>
+        <p>{Object.keys(taste)[4]} : {((Object.values(taste)[4]/taste.sum) * 100).toFixed(2)}%</p>
+        <p>Other : {other}%</p>
       </div>
     );
 }
