@@ -1,11 +1,11 @@
 var chai = require('chai');
-var assert = chai.assert;
+const assert = require("assert");
+var app = require('../app.js');
 
-var app = require('../app.js')
 const getPlaylistWithTracks = app.getPlaylistWithTracks
 const getTaste = app.getTaste
 const playlistFinder = app.playlistFinder
-
+const search=app.search
 
 
 var SpotifyWebApi = require('spotify-web-api-node');
@@ -69,3 +69,17 @@ describe("playlistFinder", async function(){
         }
     })
 })
+
+describe("search", async function(){
+    it("Should return an array of ids", async function(){
+        try{
+            var array=await search('Pop');
+            console.log(array);
+            assert.typeOf(array,'object');
+        }
+        catch(err){
+            console.log("")
+        }
+    })
+})
+
