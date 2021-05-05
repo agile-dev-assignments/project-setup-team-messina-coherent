@@ -1,14 +1,12 @@
 import './myTaste.css';
 import React, { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 
 
 function MyTaste() {
   const [taste, setTaste] = useState('');
-  const [isLoading, setLoading] = useState(true);
   const url = 'http://localhost:3001/my-taste';
   useEffect(() => {
     axios.get(url).then(response => {
