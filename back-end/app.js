@@ -3,7 +3,8 @@ const app = express(); // instantiate an Express object
 require("dotenv").config({ silent: true })
 
 
-const User= require('./db');
+//User model comes from models folder
+const User= require('./models/user.model');
 
 //const mongoose = require('mongoose');
 
